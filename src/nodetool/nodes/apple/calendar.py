@@ -9,6 +9,7 @@ if IS_MACOS:
     import EventKit  # type: ignore
     import Foundation  # type: ignore
 
+
 class CreateCalendarEvent(BaseNode):
     """
     Create a new event in Apple Calendar via AppleScript
@@ -43,7 +44,9 @@ class CreateCalendarEvent(BaseNode):
 
     async def process(self, context: ProcessingContext):
         if not IS_MACOS:
-            raise NotImplementedError("Calendar functionality is only available on macOS")
+            raise NotImplementedError(
+                "Calendar functionality is only available on macOS"
+            )
         # Get the event store
         event_store = EventKit.EKEventStore.alloc().init()  # type: ignore
 
@@ -121,7 +124,9 @@ class ListCalendarEvents(BaseNode):
 
     async def process(self, context: ProcessingContext) -> list[CalendarEvent]:
         if not IS_MACOS:
-            raise NotImplementedError("Calendar functionality is only available on macOS")
+            raise NotImplementedError(
+                "Calendar functionality is only available on macOS"
+            )
         # Calculate start and end dates based on days_back and days_forward
         now = datetime.now()
         start_date_dt = now.replace(hour=0, minute=0, second=0, microsecond=0)
