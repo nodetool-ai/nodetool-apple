@@ -1,0 +1,705 @@
+{
+  "name": "nodetool-apple",
+  "description": "Nodetool Apple nodes",
+  "version": "0.6.0",
+  "authors": [
+    "Matthias Georgi <matti.georgi@gmail.com>"
+  ],
+  "repo_id": "nodetool-ai/nodetool-apple",
+  "nodes": [
+    {
+      "title": "Capture Screen",
+      "description": "Capture screen content via PyObjC\n    screen, automation, macos, media",
+      "namespace": "apple.screen",
+      "node_type": "apple.screen.CaptureScreen",
+      "layout": "default",
+      "properties": [
+        {
+          "name": "whole_screen",
+          "type": {
+            "type": "bool"
+          },
+          "default": true,
+          "title": "Whole Screen",
+          "description": "Capture the whole screen"
+        },
+        {
+          "name": "x",
+          "type": {
+            "type": "int"
+          },
+          "default": 0,
+          "title": "X",
+          "description": "X coordinate of the region to capture"
+        },
+        {
+          "name": "y",
+          "type": {
+            "type": "int"
+          },
+          "default": 0,
+          "title": "Y",
+          "description": "Y coordinate of the region to capture"
+        },
+        {
+          "name": "width",
+          "type": {
+            "type": "int"
+          },
+          "default": 1920,
+          "title": "Width",
+          "description": "Width of the region to capture"
+        },
+        {
+          "name": "height",
+          "type": {
+            "type": "int"
+          },
+          "default": 1080,
+          "title": "Height",
+          "description": "Height of the region to capture"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "image"
+          },
+          "name": "output"
+        }
+      ],
+      "the_model_info": {},
+      "recommended_models": [],
+      "basic_fields": [
+        "whole_screen",
+        "x",
+        "y",
+        "width",
+        "height"
+      ],
+      "is_dynamic": false
+    },
+    {
+      "title": "Create Reminder",
+      "description": "Create reminders using macOS Reminders.app via PyObjC\n    reminders, automation, macos, productivity",
+      "namespace": "apple.reminders",
+      "node_type": "apple.reminders.CreateReminder",
+      "layout": "default",
+      "properties": [
+        {
+          "name": "title",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Title",
+          "description": "Title of the reminder"
+        },
+        {
+          "name": "due_date",
+          "type": {
+            "type": "datetime"
+          },
+          "title": "Due Date",
+          "description": "Due date for the reminder"
+        },
+        {
+          "name": "list_name",
+          "type": {
+            "type": "str"
+          },
+          "default": "Reminders",
+          "title": "List Name",
+          "description": "Name of the reminders list"
+        },
+        {
+          "name": "notes",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Notes",
+          "description": "Additional notes for the reminder"
+        },
+        {
+          "name": "priority",
+          "type": {
+            "type": "int"
+          },
+          "default": 0,
+          "title": "Priority",
+          "description": "Priority (0-5)"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "any"
+          },
+          "name": "output"
+        }
+      ],
+      "the_model_info": {},
+      "recommended_models": [],
+      "basic_fields": [
+        "title",
+        "due_date",
+        "list_name",
+        "notes",
+        "priority"
+      ],
+      "is_dynamic": false
+    },
+    {
+      "title": "Create Note",
+      "description": "Create a new note in Apple Notes via AppleScript\n    notes, automation, macos, productivity\n\n    Use cases:\n    - Automatically save information to Notes\n    - Create documentation or records\n    - Save workflow outputs as notes",
+      "namespace": "apple.notes",
+      "node_type": "apple.notes.CreateNote",
+      "layout": "default",
+      "properties": [
+        {
+          "name": "title",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Title",
+          "description": "Title of the note"
+        },
+        {
+          "name": "body",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Body",
+          "description": "Content of the note"
+        },
+        {
+          "name": "folder",
+          "type": {
+            "type": "str"
+          },
+          "default": "Notes",
+          "title": "Folder",
+          "description": "Notes folder to save to"
+        }
+      ],
+      "outputs": [],
+      "the_model_info": {},
+      "recommended_models": [],
+      "basic_fields": [
+        "title",
+        "body",
+        "folder"
+      ],
+      "is_dynamic": false
+    },
+    {
+      "title": "Read Notes",
+      "description": "Read notes from Apple Notes via AppleScript",
+      "namespace": "apple.notes",
+      "node_type": "apple.notes.ReadNotes",
+      "layout": "default",
+      "properties": [
+        {
+          "name": "note_limit",
+          "type": {
+            "type": "int"
+          },
+          "default": 10,
+          "title": "Note Limit",
+          "description": "Maximum number of notes to export"
+        },
+        {
+          "name": "note_limit_per_folder",
+          "type": {
+            "type": "int"
+          },
+          "default": 10,
+          "title": "Note Limit Per Folder",
+          "description": "Maximum notes per folder"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "list",
+            "type_args": [
+              {
+                "type": "dict"
+              }
+            ]
+          },
+          "name": "output"
+        }
+      ],
+      "the_model_info": {},
+      "recommended_models": [],
+      "basic_fields": [
+        "note_limit",
+        "note_limit_per_folder"
+      ],
+      "is_dynamic": false
+    },
+    {
+      "title": "Create Calendar Event",
+      "description": "Create a new event in Apple Calendar via AppleScript\n    calendar, automation, macos, productivity\n\n    Use cases:\n    - Automate event creation\n    - Schedule meetings programmatically\n    - Create recurring events",
+      "namespace": "apple.calendar",
+      "node_type": "apple.calendar.CreateCalendarEvent",
+      "layout": "default",
+      "properties": [
+        {
+          "name": "title",
+          "type": {
+            "type": "str"
+          },
+          "default": "New Event",
+          "title": "Title",
+          "description": "Title of the calendar event"
+        },
+        {
+          "name": "start_date",
+          "type": {
+            "type": "datetime"
+          },
+          "default": {},
+          "title": "Start Date",
+          "description": "Start date and time of the event"
+        },
+        {
+          "name": "end_date",
+          "type": {
+            "type": "datetime"
+          },
+          "default": {},
+          "title": "End Date",
+          "description": "End date and time of the event"
+        },
+        {
+          "name": "calendar_name",
+          "type": {
+            "type": "str"
+          },
+          "default": "Calendar",
+          "title": "Calendar Name",
+          "description": "Name of the calendar"
+        },
+        {
+          "name": "location",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Location",
+          "description": "Location of the event"
+        },
+        {
+          "name": "description",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Description",
+          "description": "Description/notes for the event"
+        }
+      ],
+      "outputs": [],
+      "the_model_info": {},
+      "recommended_models": [],
+      "basic_fields": [
+        "title",
+        "start_date",
+        "end_date",
+        "calendar_name"
+      ],
+      "is_dynamic": false
+    },
+    {
+      "title": "List Calendar Events",
+      "description": "List events from Apple Calendar within a specified date range\n    calendar, automation, macos, productivity\n\n    Use cases:\n    - Retrieve upcoming events\n    - Check schedule availability\n    - Export calendar events",
+      "namespace": "apple.calendar",
+      "node_type": "apple.calendar.ListCalendarEvents",
+      "layout": "default",
+      "properties": [
+        {
+          "name": "days_back",
+          "type": {
+            "type": "int"
+          },
+          "default": 0,
+          "title": "Days Back",
+          "description": "Number of days to look back from today",
+          "min": 0.0
+        },
+        {
+          "name": "days_forward",
+          "type": {
+            "type": "int"
+          },
+          "default": 7,
+          "title": "Days Forward",
+          "description": "Number of days to look forward from today",
+          "min": 0.0
+        },
+        {
+          "name": "calendar_name",
+          "type": {
+            "type": "str"
+          },
+          "default": "Calendar",
+          "title": "Calendar Name",
+          "description": "Name of the calendar to search"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "list",
+            "type_args": [
+              {
+                "type": "calendar_event"
+              }
+            ]
+          },
+          "name": "output"
+        }
+      ],
+      "the_model_info": {},
+      "recommended_models": [],
+      "basic_fields": [
+        "days_back",
+        "days_forward",
+        "calendar_name"
+      ],
+      "is_dynamic": false
+    },
+    {
+      "title": "Send Message",
+      "description": "Send messages using macOS Messages.app via AppleScript\n    messages, imessage, automation, macos, communication\n\n    Use cases:\n    - Send automated notifications via iMessage\n    - Integrate messaging into workflows\n    - Send workflow results to yourself or others",
+      "namespace": "apple.messages",
+      "node_type": "apple.messages.SendMessage",
+      "layout": "default",
+      "properties": [
+        {
+          "name": "recipient",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Recipient",
+          "description": "Phone number, email, or contact name to send message to"
+        },
+        {
+          "name": "text",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Text",
+          "description": "Message content to send"
+        }
+      ],
+      "outputs": [],
+      "the_model_info": {},
+      "recommended_models": [],
+      "basic_fields": [
+        "recipient",
+        "text"
+      ],
+      "is_dynamic": false
+    },
+    {
+      "title": "Say Text",
+      "description": "Speak text using macOS's built-in text-to-speech\n    speech, automation, macos, accessibility\n\n    Use cases:\n    - Add voice notifications to workflows\n    - Create audio feedback\n    - Accessibility features",
+      "namespace": "apple.speech",
+      "node_type": "apple.speech.SayText",
+      "layout": "default",
+      "properties": [
+        {
+          "name": "text",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Text",
+          "description": "Text to be spoken"
+        },
+        {
+          "name": "rate",
+          "type": {
+            "type": "float"
+          },
+          "default": 175.0,
+          "title": "Rate",
+          "description": "Speaking rate (words per minute)",
+          "min": 10.0,
+          "max": 300.0
+        },
+        {
+          "name": "volume",
+          "type": {
+            "type": "float"
+          },
+          "default": 1.0,
+          "title": "Volume",
+          "description": "Volume level (0.0 to 1.0)",
+          "min": 0.0,
+          "max": 1.0
+        },
+        {
+          "name": "voice",
+          "type": {
+            "type": "enum",
+            "values": [
+              "com.apple.speech.synthesis.voice.Albert",
+              "com.apple.speech.synthesis.voice.BadNews",
+              "com.apple.speech.synthesis.voice.GoodNews",
+              "com.apple.speech.synthesis.voice.Fred",
+              "com.apple.speech.synthesis.voice.Junior",
+              "com.apple.speech.synthesis.voice.Kathy",
+              "com.apple.speech.synthesis.voice.Ralph",
+              "com.apple.voice.compact.en-US.Samantha",
+              "com.apple.voice.compact.en-GB.Daniel",
+              "com.apple.voice.compact.en-AU.Karen",
+              "com.apple.voice.compact.en-IE.Moira",
+              "com.apple.voice.compact.en-IN.Rishi",
+              "com.apple.voice.compact.en-ZA.Tessa",
+              "com.apple.voice.compact.id-ID.Damayanti",
+              "com.apple.voice.compact.th-TH.Kanya",
+              "com.apple.voice.compact.ja-JP.Kyoko",
+              "com.apple.voice.compact.hi-IN.Lekha",
+              "com.apple.voice.compact.vi-VN.Linh",
+              "com.apple.voice.compact.zh-TW.Meijia",
+              "com.apple.voice.compact.zh-HK.Sinji",
+              "com.apple.voice.compact.zh-CN.Tingting",
+              "com.apple.voice.compact.ko-KR.Yuna",
+              "com.apple.voice.compact.it-IT.Alice",
+              "com.apple.voice.compact.sv-SE.Alva",
+              "com.apple.voice.compact.de-DE.Anna",
+              "com.apple.voice.compact.he-IL.Carmit",
+              "com.apple.voice.compact.bg-BG.Daria",
+              "com.apple.voice.compact.nl-BE.Ellen",
+              "com.apple.voice.compact.ro-RO.Ioana",
+              "com.apple.voice.compact.pt-PT.Joana",
+              "com.apple.voice.compact.hr-HR.Lana",
+              "com.apple.voice.compact.sk-SK.Laura",
+              "com.apple.voice.compact.uk-UA.Lesya",
+              "com.apple.voice.compact.pt-BR.Luciana",
+              "com.apple.voice.compact.hu-HU.Mariska",
+              "com.apple.voice.compact.el-GR.Melina",
+              "com.apple.voice.compact.ru-RU.Milena",
+              "com.apple.voice.compact.es-ES.Monica",
+              "com.apple.voice.compact.ca-ES.Montserrat",
+              "com.apple.voice.compact.nb-NO.Nora",
+              "com.apple.voice.compact.es-MX.Paulina",
+              "com.apple.voice.compact.da-DK.Sara",
+              "com.apple.voice.compact.fi-FI.Satu",
+              "com.apple.voice.compact.fr-FR.Thomas",
+              "com.apple.voice.compact.sl-SI.Tina",
+              "com.apple.voice.compact.nl-NL.Xander",
+              "com.apple.voice.compact.tr-TR.Yelda",
+              "com.apple.voice.compact.pl-PL.Zosia",
+              "com.apple.voice.compact.cs-CZ.Zuzana",
+              "com.apple.voice.compact.ms-MY.Amira",
+              "com.apple.voice.compact.ar-001.Maged",
+              "com.apple.voice.compact.fr-CA.Amelie",
+              "com.apple.eloquence.fr-FR.Jacques",
+              "com.apple.speech.synthesis.voice.Bahh",
+              "com.apple.speech.synthesis.voice.Bells",
+              "com.apple.speech.synthesis.voice.Boing",
+              "com.apple.speech.synthesis.voice.Bubbles",
+              "com.apple.speech.synthesis.voice.Cellos",
+              "com.apple.speech.synthesis.voice.Deranged",
+              "com.apple.speech.synthesis.voice.Hysterical",
+              "com.apple.speech.synthesis.voice.Organ",
+              "com.apple.speech.synthesis.voice.Princess",
+              "com.apple.speech.synthesis.voice.Trinoids",
+              "com.apple.speech.synthesis.voice.Whisper",
+              "com.apple.speech.synthesis.voice.Zarvox",
+              "com.apple.eloquence.de-DE.Eddy",
+              "com.apple.eloquence.en-GB.Eddy",
+              "com.apple.eloquence.en-US.Eddy",
+              "com.apple.eloquence.es-ES.Eddy",
+              "com.apple.eloquence.es-MX.Eddy",
+              "com.apple.eloquence.fi-FI.Eddy",
+              "com.apple.eloquence.fr-CA.Eddy",
+              "com.apple.eloquence.fr-FR.Eddy",
+              "com.apple.eloquence.it-IT.Eddy",
+              "com.apple.eloquence.ja-JP.Eddy",
+              "com.apple.eloquence.ko-KR.Eddy",
+              "com.apple.eloquence.pt-BR.Eddy",
+              "com.apple.eloquence.zh-CN.Eddy",
+              "com.apple.eloquence.zh-TW.Eddy",
+              "com.apple.eloquence.de-DE.Flo",
+              "com.apple.eloquence.en-GB.Flo",
+              "com.apple.eloquence.en-US.Flo",
+              "com.apple.eloquence.es-ES.Flo",
+              "com.apple.eloquence.es-MX.Flo",
+              "com.apple.eloquence.fi-FI.Flo",
+              "com.apple.eloquence.fr-CA.Flo",
+              "com.apple.eloquence.fr-FR.Flo",
+              "com.apple.eloquence.it-IT.Flo",
+              "com.apple.eloquence.ja-JP.Flo",
+              "com.apple.eloquence.ko-KR.Flo",
+              "com.apple.eloquence.pt-BR.Flo",
+              "com.apple.eloquence.zh-CN.Flo",
+              "com.apple.eloquence.zh-TW.Flo",
+              "com.apple.eloquence.de-DE.Grandma",
+              "com.apple.eloquence.en-GB.Grandma",
+              "com.apple.eloquence.en-US.Grandma",
+              "com.apple.eloquence.es-ES.Grandma",
+              "com.apple.eloquence.es-MX.Grandma",
+              "com.apple.eloquence.fi-FI.Grandma",
+              "com.apple.eloquence.fr-CA.Grandma",
+              "com.apple.eloquence.fr-FR.Grandma",
+              "com.apple.eloquence.it-IT.Grandma",
+              "com.apple.eloquence.ja-JP.Grandma",
+              "com.apple.eloquence.ko-KR.Grandma",
+              "com.apple.eloquence.pt-BR.Grandma",
+              "com.apple.eloquence.zh-CN.Grandma",
+              "com.apple.eloquence.zh-TW.Grandma",
+              "com.apple.eloquence.de-DE.Grandpa",
+              "com.apple.eloquence.en-GB.Grandpa",
+              "com.apple.eloquence.en-US.Grandpa",
+              "com.apple.eloquence.es-ES.Grandpa",
+              "com.apple.eloquence.es-MX.Grandpa",
+              "com.apple.eloquence.fi-FI.Grandpa",
+              "com.apple.eloquence.fr-CA.Grandpa",
+              "com.apple.eloquence.fr-FR.Grandpa",
+              "com.apple.eloquence.it-IT.Grandpa",
+              "com.apple.eloquence.ja-JP.Grandpa",
+              "com.apple.eloquence.ko-KR.Grandpa",
+              "com.apple.eloquence.pt-BR.Grandpa",
+              "com.apple.eloquence.zh-CN.Grandpa",
+              "com.apple.eloquence.zh-TW.Grandpa",
+              "com.apple.eloquence.de-DE.Reed",
+              "com.apple.eloquence.en-GB.Reed",
+              "com.apple.eloquence.en-US.Reed",
+              "com.apple.eloquence.es-ES.Reed",
+              "com.apple.eloquence.es-MX.Reed",
+              "com.apple.eloquence.fi-FI.Reed",
+              "com.apple.eloquence.fr-CA.Reed",
+              "com.apple.eloquence.it-IT.Reed",
+              "com.apple.eloquence.ja-JP.Reed",
+              "com.apple.eloquence.ko-KR.Reed",
+              "com.apple.eloquence.pt-BR.Reed",
+              "com.apple.eloquence.zh-CN.Reed",
+              "com.apple.eloquence.zh-TW.Reed",
+              "com.apple.eloquence.de-DE.Rocko",
+              "com.apple.eloquence.en-GB.Rocko",
+              "com.apple.eloquence.en-US.Rocko",
+              "com.apple.eloquence.es-ES.Rocko",
+              "com.apple.eloquence.es-MX.Rocko",
+              "com.apple.eloquence.fi-FI.Rocko",
+              "com.apple.eloquence.fr-CA.Rocko",
+              "com.apple.eloquence.fr-FR.Rocko",
+              "com.apple.eloquence.it-IT.Rocko",
+              "com.apple.eloquence.ja-JP.Rocko",
+              "com.apple.eloquence.ko-KR.Rocko",
+              "com.apple.eloquence.pt-BR.Rocko",
+              "com.apple.eloquence.zh-CN.Rocko",
+              "com.apple.eloquence.zh-TW.Rocko",
+              "com.apple.eloquence.de-DE.Sandy",
+              "com.apple.eloquence.en-GB.Sandy",
+              "com.apple.eloquence.en-US.Sandy",
+              "com.apple.eloquence.es-ES.Sandy",
+              "com.apple.eloquence.es-MX.Sandy",
+              "com.apple.eloquence.fi-FI.Sandy",
+              "com.apple.eloquence.fr-CA.Sandy",
+              "com.apple.eloquence.fr-FR.Sandy",
+              "com.apple.eloquence.it-IT.Sandy",
+              "com.apple.eloquence.ja-JP.Sandy",
+              "com.apple.eloquence.ko-KR.Sandy",
+              "com.apple.eloquence.pt-BR.Sandy",
+              "com.apple.eloquence.zh-CN.Sandy",
+              "com.apple.eloquence.zh-TW.Sandy",
+              "com.apple.eloquence.de-DE.Shelley",
+              "com.apple.eloquence.en-GB.Shelley",
+              "com.apple.eloquence.en-US.Shelley",
+              "com.apple.eloquence.es-ES.Shelley",
+              "com.apple.eloquence.es-MX.Shelley",
+              "com.apple.eloquence.fi-FI.Shelley",
+              "com.apple.eloquence.fr-CA.Shelley",
+              "com.apple.eloquence.fr-FR.Shelley",
+              "com.apple.eloquence.it-IT.Shelley",
+              "com.apple.eloquence.ja-JP.Shelley",
+              "com.apple.eloquence.ko-KR.Shelley",
+              "com.apple.eloquence.pt-BR.Shelley",
+              "com.apple.eloquence.zh-CN.Shelley",
+              "com.apple.eloquence.zh-TW.Shelley"
+            ],
+            "type_name": "nodetool.nodes.apple.speech.MacOSVoice"
+          },
+          "default": "com.apple.speech.synthesis.voice.Albert",
+          "title": "Voice",
+          "description": "Voice identifier"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "bool"
+          },
+          "name": "output"
+        }
+      ],
+      "the_model_info": {},
+      "recommended_models": [],
+      "basic_fields": [
+        "text",
+        "rate",
+        "volume",
+        "voice"
+      ],
+      "is_dynamic": false
+    },
+    {
+      "title": "Search Dictionary",
+      "description": "Search macOS Dictionary.app using Dictionary Services API\n    dictionary, automation, macos, reference\n\n    Use cases:\n    - Look up word definitions programmatically\n    - Check spelling and usage\n    - Access dictionary content in workflows",
+      "namespace": "apple.dictionary",
+      "node_type": "apple.dictionary.SearchDictionary",
+      "layout": "default",
+      "properties": [
+        {
+          "name": "term",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Term",
+          "description": "Word or phrase to look up in the dictionary"
+        },
+        {
+          "name": "max_results",
+          "type": {
+            "type": "int"
+          },
+          "default": 1,
+          "title": "Max Results",
+          "description": "Maximum number of definitions to return"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "list",
+            "type_args": [
+              {
+                "type": "str"
+              }
+            ]
+          },
+          "name": "output"
+        }
+      ],
+      "the_model_info": {},
+      "recommended_models": [],
+      "basic_fields": [
+        "term",
+        "max_results"
+      ],
+      "is_dynamic": false
+    }
+  ]
+}
