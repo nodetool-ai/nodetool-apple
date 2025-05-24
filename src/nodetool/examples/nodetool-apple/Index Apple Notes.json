@@ -13,7 +13,7 @@
       {
         "id": "4",
         "parent_id": null,
-        "type": "nodetool.group.Loop",
+        "type": "nodetool.workflows.base_node.Group",
         "data": {},
         "ui_properties": {
           "selected": false,
@@ -69,7 +69,7 @@
       {
         "id": "3",
         "parent_id": "4",
-        "type": "nodetool.text.HTMLToText",
+        "type": "nodetool.text.HtmlToText",
         "data": {
           "preserve_linebreaks": true
         },
@@ -116,24 +116,6 @@
           },
           "zIndex": 0,
           "width": 197,
-          "selectable": true
-        }
-      },
-      {
-        "id": "8",
-        "parent_id": "4",
-        "type": "chroma.embedding_functions.SentenceTransformerEmbeddingFunction",
-        "data": {
-          "model": "all-MiniLM-L6-v2"
-        },
-        "ui_properties": {
-          "selected": false,
-          "position": {
-            "x": 232,
-            "y": 54
-          },
-          "zIndex": 0,
-          "width": 213,
           "selectable": true
         }
       },
@@ -240,16 +222,6 @@
         "targetHandle": "dictionary",
         "ui_properties": {
           "className": "any"
-        }
-      },
-      {
-        "id": "8b28f179-987d-4dd5-8636-37e101557c9a",
-        "source": "8",
-        "sourceHandle": "output",
-        "target": "9",
-        "targetHandle": "embedding_function",
-        "ui_properties": {
-          "className": "chroma_embedding_function"
         }
       },
       {
