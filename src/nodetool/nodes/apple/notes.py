@@ -13,6 +13,7 @@ if IS_MACOS:
 
 export_notes_script = Path(__file__).parent / "exportnotes.applescript"
 
+
 def escape_for_applescript(text: str) -> str:
     """Escape special characters for AppleScript strings."""
     # First escape backslashes, then quotes
@@ -33,6 +34,7 @@ class CreateNote(BaseNode):
     - Create documentation or records
     - Save workflow outputs as notes
     """
+
     title: str = Field(default="", description="Title of the note")
     body: str = Field(default="", description="Content of the note")
     folder: str = Field(default="Notes", description="Notes folder to save to")
@@ -68,10 +70,14 @@ class CreateNote(BaseNode):
         except subprocess.CalledProcessError as e:
             raise Exception(f"Failed to create note: {e.stderr}")
 
+
 class ReadNotes(BaseNode):
     """Read notes from Apple Notes via AppleScript"""
+
     note_limit: int = Field(default=10, description="Maximum number of notes to export")
-    note_limit_per_folder: int = Field(default=10, description="Maximum notes per folder")
+    note_limit_per_folder: int = Field(
+        default=10, description="Maximum notes per folder"
+    )
 
     @classmethod
     def is_cacheable(cls) -> bool:

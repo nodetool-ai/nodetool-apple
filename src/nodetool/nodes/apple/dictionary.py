@@ -31,7 +31,9 @@ class SearchDictionary(BaseNode):
 
     async def process(self, context: ProcessingContext) -> list[str]:
         if not IS_MACOS:
-            raise NotImplementedError("Dictionary functionality is only available on macOS")
+            raise NotImplementedError(
+                "Dictionary functionality is only available on macOS"
+            )
         if not self.term:
             return []
 
