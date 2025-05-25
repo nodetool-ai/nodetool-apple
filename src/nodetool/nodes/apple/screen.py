@@ -24,7 +24,9 @@ class CaptureScreen(BaseNode):
 
     async def process(self, context: ProcessingContext) -> ImageRef:
         if not IS_MACOS:
-            raise NotImplementedError("Screen capture functionality is only available on macOS")
+            raise NotImplementedError(
+                "Screen capture functionality is only available on macOS"
+            )
         main_display = Quartz.CGMainDisplayID()  # type: ignore
 
         # If region is specified, capture that region, otherwise capture full screen

@@ -13,6 +13,10 @@ package-mode = true
 include = ["src/nodetool/package_metadata/nodetool-apple.json"]
 repository = "https://github.com/nodetool-ai/nodetool-apple"
 
+[tool.ruff]
+[tool.ruff.lint]
+extend-ignore = ["F401", "F841"]
+
 [tool.poetry.dependencies]
 python = "^3.11"
 nodetool-core = { git = "https://github.com/nodetool-ai/nodetool-core.git", rev = "main" }

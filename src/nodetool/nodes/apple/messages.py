@@ -30,7 +30,9 @@ class SendMessage(BaseNode):
 
     async def process(self, context: ProcessingContext):
         if not IS_MACOS:
-            raise NotImplementedError("Messages functionality is only available on macOS")
+            raise NotImplementedError(
+                "Messages functionality is only available on macOS"
+            )
         text_content = escape_for_applescript(self.text)
         recipient = escape_for_applescript(self.recipient)
 
