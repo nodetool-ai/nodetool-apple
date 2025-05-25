@@ -701,5 +701,13 @@
       ],
       "is_dynamic": false
     }
+  ],
+  "examples": [
+    {
+      "id": "d6334072c63b11ef8f2a00003c606db5",
+      "name": "Index Apple Notes",
+      "description": "Create searchable vector database from Apple Notes",
+      "tags": []
+    }
   ]
 }
