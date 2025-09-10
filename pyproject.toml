@@ -1,29 +1,47 @@
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-[tool.poetry]
+[project]
 name = "nodetool-apple"
 version = "0.6.0"
 description = "Nodetool Apple nodes"
 readme = "README.md"
-authors = ["Matthias Georgi <matti.georgi@gmail.com>"]
-packages = [{ include = "nodetool", from = "src" }]
-package-mode = true
-include = ["src/nodetool/package_metadata/nodetool-apple.json"]
-repository = "https://github.com/nodetool-ai/nodetool-apple"
+authors = [
+    {name = "Matthias Georgi", email = "matti.georgi@gmail.com"}
+]
+requires-python = ">=3.11"
+
+dependencies = [
+    "nodetool-core>=0.6.0,<0.7.0",
+    # macOS specific
+    "pyobjc-core==11.0.0; sys_platform == 'darwin'",
+    "pyobjc-framework-Cocoa==11.0.0; sys_platform == 'darwin'",
+    "pyobjc-framework-EventKit==11.0.0; sys_platform == 'darwin'",
+    "pyobjc-framework-CoreServices==11.0.0; sys_platform == 'darwin'",
+    "pyobjc-framework-Quartz==11.0.0; sys_platform == 'darwin'",
+]
+
+
+[project.optional-dependencies]
+# For development with local nodetool-core
+dev = [
+    "nodetool-core @ file:///../nodetool-core",
+]
+# For exact version pinning in production
+stable = [
+    "nodetool-core==0.6.0",
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/nodetool"]
+artifacts = [
+    "src/nodetool/package_metadata/nodetool-apple.json",
+]
 
 [tool.ruff]
 [tool.ruff.lint]
 extend-ignore = ["F401", "F841"]
-
-[tool.poetry.dependencies]
-python = "^3.11"
-nodetool-core = { git = "https://github.com/nodetool-ai/nodetool-core.git", rev = "main" }
-
-# macOS specific
-pyobjc-core = { version = "11.0.0", markers = "sys_platform == 'darwin'" }
-pyobjc-framework-Cocoa = { version = "11.0.0", markers = "sys_platform == 'darwin'" }
-pyobjc-framework-EventKit = { version = "11.0.0", markers = "sys_platform == 'darwin'" }
-pyobjc-framework-CoreServices = { version = "11.0.0", markers = "sys_platform == 'darwin'" }
-pyobjc-framework-Quartz = { version = "11.0.0", markers = "sys_platform == 'darwin'" }
