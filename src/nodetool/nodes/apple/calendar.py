@@ -3,11 +3,10 @@ from pydantic import Field
 from nodetool.workflows.base_node import BaseNode
 from nodetool.workflows.processing_context import ProcessingContext
 from nodetool.metadata.types import Datetime, CalendarEvent
-from nodetool.nodes.apple import IS_MACOS
+import Foundation  # type: ignore
 
-if IS_MACOS:
-    import EventKit  # type: ignore
-    import Foundation  # type: ignore
+import EventKit  # type: ignore
+import Foundation  # type: ignore
 
 
 class CreateCalendarEvent(BaseNode):
@@ -43,10 +42,6 @@ class CreateCalendarEvent(BaseNode):
         return False
 
     async def process(self, context: ProcessingContext):
-        if not IS_MACOS:
-            raise NotImplementedError(
-                "Calendar functionality is only available on macOS"
-            )
         # Get the event store
         event_store = EventKit.EKEventStore.alloc().init()  # type: ignore
 
@@ -123,10 +118,6 @@ class ListCalendarEvents(BaseNode):
         return False
 
     async def process(self, context: ProcessingContext) -> list[CalendarEvent]:
-        if not IS_MACOS:
-            raise NotImplementedError(
-                "Calendar functionality is only available on macOS"
-            )
         # Calculate start and end dates based on days_back and days_forward
         now = datetime.now()
         start_date_dt = now.replace(hour=0, minute=0, second=0, microsecond=0)

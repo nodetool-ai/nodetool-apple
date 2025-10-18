@@ -6,10 +6,9 @@ from nodetool.metadata.types import TextRef
 import tempfile
 import os
 from pathlib import Path
-from nodetool.nodes.apple import IS_MACOS
+import Foundation  # type: ignore
+import subprocess  # type: ignore
 
-if IS_MACOS:
-    from Foundation import NSObject  # type: ignore
 
 export_notes_script = Path(__file__).parent / "exportnotes.applescript"
 
@@ -44,8 +43,6 @@ class CreateNote(BaseNode):
         return False
 
     async def process(self, context: ProcessingContext):
-        if not IS_MACOS:
-            raise NotImplementedError("Notes functionality is only available on macOS")
         body_content = escape_for_applescript(self.body)
         title = escape_for_applescript(self.title)
 
@@ -84,8 +81,6 @@ class ReadNotes(BaseNode):
         return False
 
     async def process(self, context: ProcessingContext) -> list[dict]:
-        if not IS_MACOS:
-            raise NotImplementedError("Notes functionality is only available on macOS")
         with tempfile.TemporaryDirectory() as temp_dir:
             try:
                 # Pass arguments positionally to the AppleScript

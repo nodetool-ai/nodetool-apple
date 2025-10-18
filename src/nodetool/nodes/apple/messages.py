@@ -3,8 +3,8 @@ from pydantic import Field
 from nodetool.workflows.base_node import BaseNode
 from nodetool.workflows.processing_context import ProcessingContext
 from nodetool.metadata.types import TextRef
-from nodetool.nodes.apple import IS_MACOS
 from nodetool.nodes.apple.notes import escape_for_applescript
+import subprocess  # type: ignore
 
 
 class SendMessage(BaseNode):
@@ -29,10 +29,6 @@ class SendMessage(BaseNode):
         return False
 
     async def process(self, context: ProcessingContext):
-        if not IS_MACOS:
-            raise NotImplementedError(
-                "Messages functionality is only available on macOS"
-            )
         text_content = escape_for_applescript(self.text)
         recipient = escape_for_applescript(self.recipient)
 

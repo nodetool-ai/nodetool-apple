@@ -1,10 +1,7 @@
 from pydantic import Field
 from nodetool.workflows.base_node import BaseNode
 from nodetool.workflows.processing_context import ProcessingContext
-from nodetool.nodes.apple import IS_MACOS
-
-if IS_MACOS:
-    import CoreServices  # type: ignore
+import CoreServices  # type: ignore
 
 
 class SearchDictionary(BaseNode):
@@ -30,10 +27,6 @@ class SearchDictionary(BaseNode):
         return True
 
     async def process(self, context: ProcessingContext) -> list[str]:
-        if not IS_MACOS:
-            raise NotImplementedError(
-                "Dictionary functionality is only available on macOS"
-            )
         if not self.term:
             return []
 

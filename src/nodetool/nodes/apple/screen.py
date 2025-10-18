@@ -3,11 +3,8 @@ from pydantic import Field
 from nodetool.workflows.base_node import BaseNode
 from nodetool.workflows.processing_context import ProcessingContext
 from nodetool.metadata.types import ImageRef
-from nodetool.nodes.apple import IS_MACOS
-
-if IS_MACOS:
-    import Quartz  # type: ignore
-    import PIL.Image
+import Foundation  # type: ignore
+import Quartz  # type: ignore
 
 
 class CaptureScreen(BaseNode):
@@ -23,10 +20,6 @@ class CaptureScreen(BaseNode):
     height: int = Field(default=1080, description="Height of the region to capture")
 
     async def process(self, context: ProcessingContext) -> ImageRef:
-        if not IS_MACOS:
-            raise NotImplementedError(
-                "Screen capture functionality is only available on macOS"
-            )
         main_display = Quartz.CGMainDisplayID()  # type: ignore
 
         # If region is specified, capture that region, otherwise capture full screen

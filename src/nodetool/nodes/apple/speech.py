@@ -3,10 +3,7 @@ from pydantic import Field
 from nodetool.workflows.base_node import BaseNode
 from nodetool.workflows.processing_context import ProcessingContext
 from nodetool.metadata.types import TextRef
-from nodetool.nodes.apple import IS_MACOS
-
-if IS_MACOS:
-    import AppKit  # type: ignore
+import AppKit  # type: ignore
 
     # Get all available voices
     # voices = AppKit.NSSpeechSynthesizer.availableVoices()
@@ -249,8 +246,6 @@ class SayText(BaseNode):
         return False
 
     async def process(self, context: ProcessingContext) -> bool:
-        if not IS_MACOS:
-            raise NotImplementedError("Speech functionality is only available on macOS")
         try:
             synthesizer = AppKit.NSSpeechSynthesizer.alloc().init()  # type: ignore
             if self.voice:
