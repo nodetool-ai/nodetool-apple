@@ -4,14 +4,14 @@ build-backend = "hatchling.build"
 
 [project]
 name = "nodetool-apple"
-version = "0.6.2rc3"
+version = "0.6.2rc4"
 description = "Nodetool Apple nodes"
 readme = "README.md"
 authors = [{ name = "Matthias Georgi", email = "matti.georgi@gmail.com" }]
 requires-python = ">=3.11"
 
 dependencies = [
-    "nodetool-core>=0.6.0,<0.7.0",
+    "nodetool-core==0.6.2rc4",
     # macOS specific
     "pyobjc-core==11.0.0; sys_platform == 'darwin'",
     "pyobjc-framework-Cocoa==11.0.0; sys_platform == 'darwin'",
@@ -23,7 +23,7 @@ dependencies = [
 
 [project.optional-dependencies]
 # For exact version pinning in production
-stable = ["nodetool-core==0.6.0"]
+stable = ["nodetool-core==0.6.2rc4"]
 
 [tool.hatch.metadata]
 
