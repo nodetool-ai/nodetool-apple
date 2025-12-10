@@ -29,7 +29,7 @@ stable = ["nodetool-core==0.6.2-rc9"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/nodetool"]
-artifacts = ["src/nodetool/package_metadata/nodetool-apple.json"]
+artifacts = ["src/nodetool/package_metadata/nodetool-apple.json", "package_metadata/nodetool-apple.json"]
 
 [tool.ruff]
 [tool.ruff.lint]
