@@ -1,7 +1,7 @@
 {
   "name": "nodetool-apple",
   "description": "Nodetool Apple nodes",
-  "version": "0.6.2-rc.9",
+  "version": "0.6.2-rc.10",
   "authors": [
     "Matthias Georgi <matti.georgi@gmail.com>"
   ],
@@ -689,11 +689,35 @@
       ]
     }
   ],
+  "assets": [
+    {
+      "package_name": "nodetool-apple",
+      "name": "Language Lesson.png",
+      "path": ""
+    },
+    {
+      "package_name": "nodetool-apple",
+      "name": "Speech To Note.png",
+      "path": ""
+    }
+  ],
   "examples": [
     {
       "id": "d6334072c63b11ef8f2a00003c606db5",
       "name": "Index Apple Notes",
       "description": "Create searchable vector database from Apple Notes",
+      "tags": []
+    },
+    {
+      "id": "",
+      "name": "Language Lesson",
+      "description": "",
+      "tags": []
+    },
+    {
+      "id": "",
+      "name": "Speech To Note",
+      "description": "",
       "tags": []
     }
   ]
