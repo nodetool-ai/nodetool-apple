@@ -1,0 +1,308 @@
+{
+    "id": "",
+    "access": "private",
+    "created_at": "2025-12-12T23:12:17.169380",
+    "updated_at": "2025-12-12T23:33:07.005862",
+    "name": "Language Lesson",
+    "tool_name": null,
+    "description": "",
+    "tags": null,
+    "thumbnail": "",
+    "thumbnail_url": null,
+    "graph": {
+        "edges": [
+            {
+                "id": "eacb64db-c197-4843-94b0-43042e4c0dc0",
+                "source": "0a4ca760-cc17-4ebb-9f55-a5259b612816",
+                "sourceHandle": "output",
+                "target": "d2ae8b2d-b45b-4364-af0d-65313ad81f86",
+                "targetHandle": "value",
+                "ui_properties": {
+                    "className": "list"
+                }
+            },
+            {
+                "id": "413e6e04-7044-4aa9-8fd7-42466d753ee4",
+                "source": "47267530-8ded-466e-a198-0879cb0435d0",
+                "sourceHandle": "item",
+                "target": "0a4ca760-cc17-4ebb-9f55-a5259b612816",
+                "targetHandle": "term",
+                "ui_properties": {
+                    "className": "str"
+                }
+            },
+            {
+                "id": "687bbc42-0747-4355-a79b-be4dfc4e4b7a",
+                "source": "0a4ca760-cc17-4ebb-9f55-a5259b612816",
+                "sourceHandle": "output",
+                "target": "edd2033a-f734-461b-9e0f-ab14bd518096",
+                "targetHandle": "input_item",
+                "ui_properties": {
+                    "className": "list"
+                }
+            },
+            {
+                "id": "be075d86-af82-4662-947b-b6b51f2facf7",
+                "source": "edd2033a-f734-461b-9e0f-ab14bd518096",
+                "sourceHandle": "output",
+                "target": "182434dc-f8a1-49f4-88a0-19caeab582fd",
+                "targetHandle": "strings",
+                "ui_properties": {
+                    "className": "list"
+                }
+            },
+            {
+                "id": "02ba745e-680d-4c3d-a5a0-5a420aec6255",
+                "source": "182434dc-f8a1-49f4-88a0-19caeab582fd",
+                "sourceHandle": "output",
+                "target": "20311cdb-e464-42a8-af07-e707dc6f4f99",
+                "targetHandle": "prompt",
+                "ui_properties": {
+                    "className": "str"
+                }
+            },
+            {
+                "id": "15bc4e27-80c5-4c23-aac3-080701f6252b",
+                "source": "20311cdb-e464-42a8-af07-e707dc6f4f99",
+                "sourceHandle": "text",
+                "target": "3fb1d49c-6084-44bd-b7a8-e7ff7d030334",
+                "targetHandle": "value",
+                "ui_properties": {
+                    "className": "str"
+                }
+            },
+            {
+                "id": "a8ad96fa-d14a-4101-a8a7-242e411f1c6a",
+                "source": "f03907d8-d78c-490f-b893-f798c4bfa904",
+                "sourceHandle": "output",
+                "target": "47267530-8ded-466e-a198-0879cb0435d0",
+                "targetHandle": "prompt",
+                "ui_properties": {
+                    "className": "str"
+                }
+            }
+        ],
+        "nodes": [
+            {
+                "id": "0a4ca760-cc17-4ebb-9f55-a5259b612816",
+                "type": "apple.dictionary.SearchDictionary",
+                "data": {
+                    "max_results": 1
+                },
+                "ui_properties": {
+                    "selected": false,
+                    "position": {
+                        "x": 350,
+                        "y": 250
+                    },
+                    "zIndex": 0,
+                    "width": 200,
+                    "selectable": true
+                },
+                "dynamic_properties": {},
+                "dynamic_outputs": {},
+                "sync_mode": "on_any"
+            },
+            {
+                "id": "d2ae8b2d-b45b-4364-af0d-65313ad81f86",
+                "type": "nodetool.workflows.base_node.Preview",
+                "data": {},
+                "ui_properties": {
+                    "selected": false,
+                    "position": {
+                        "x": 610,
+                        "y": 390
+                    },
+                    "zIndex": 0,
+                    "width": 235,
+                    "height": 190,
+                    "selectable": true
+                },
+                "dynamic_properties": {},
+                "dynamic_outputs": {},
+                "sync_mode": "on_any"
+            },
+            {
+                "id": "47267530-8ded-466e-a198-0879cb0435d0",
+                "type": "nodetool.generators.ListGenerator",
+                "data": {
+                    "model": {
+                        "type": "language_model",
+                        "id": "gemma3:4b",
+                        "provider": "ollama",
+                        "name": "gemma3:4b"
+                    },
+                    "input_text": "",
+                    "max_tokens": 4096
+                },
+                "ui_properties": {
+                    "selected": false,
+                    "position": {
+                        "x": 120,
+                        "y": 186
+                    },
+                    "zIndex": 0,
+                    "width": 200,
+                    "selectable": true
+                },
+                "dynamic_properties": {},
+                "dynamic_outputs": {},
+                "sync_mode": "on_any"
+            },
+            {
+                "id": "edd2033a-f734-461b-9e0f-ab14bd518096",
+                "type": "nodetool.control.Collect",
+                "data": {},
+                "ui_properties": {
+                    "selected": false,
+                    "position": {
+                        "x": 627.5,
+                        "y": 245
+                    },
+                    "zIndex": 0,
+                    "width": 200,
+                    "selectable": true
+                },
+                "dynamic_properties": {},
+                "dynamic_outputs": {},
+                "sync_mode": "on_any"
+            },
+            {
+                "id": "182434dc-f8a1-49f4-88a0-19caeab582fd",
+                "type": "nodetool.text.Join",
+                "data": {
+                    "separator": ";"
+                },
+                "ui_properties": {
+                    "selected": false,
+                    "position": {
+                        "x": 863,
+                        "y": 200
+                    },
+                    "zIndex": 0,
+                    "width": 200,
+                    "selectable": true
+                },
+                "dynamic_properties": {},
+                "dynamic_outputs": {},
+                "sync_mode": "on_any"
+            },
+            {
+                "id": "20311cdb-e464-42a8-af07-e707dc6f4f99",
+                "type": "nodetool.agents.Agent",
+                "data": {
+                    "model": {
+                        "type": "language_model",
+                        "id": "gemma3:4b",
+                        "provider": "ollama",
+                        "name": "gemma3:4b"
+                    },
+                    "system": "Write a Dutch language exercise based on the words below.",
+                    "image": {
+                        "type": "image",
+                        "uri": "",
+                        "asset_id": null,
+                        "data": null
+                    },
+                    "audio": {
+                        "type": "audio",
+                        "uri": "",
+                        "asset_id": null,
+                        "data": null
+                    },
+                    "history": [],
+                    "thread_id": null,
+                    "max_tokens": 8192,
+                    "context_window": 30000
+                },
+                "ui_properties": {
+                    "selected": false,
+                    "position": {
+                        "x": 1105,
+                        "y": 68
+                    },
+                    "zIndex": 0,
+                    "width": 200,
+                    "selectable": true
+                },
+                "dynamic_properties": {},
+                "dynamic_outputs": {},
+                "sync_mode": "on_any"
+            },
+            {
+                "id": "3fb1d49c-6084-44bd-b7a8-e7ff7d030334",
+                "type": "nodetool.output.StringOutput",
+                "data": {
+                    "name": "lesson",
+                    "description": ""
+                },
+                "ui_properties": {
+                    "selected": false,
+                    "position": {
+                        "x": 1340,
+                        "y": -15
+                    },
+                    "zIndex": 0,
+                    "width": 600,
+                    "selectable": true
+                },
+                "dynamic_properties": {},
+                "dynamic_outputs": {},
+                "sync_mode": "on_any"
+            },
+            {
+                "id": "f03907d8-d78c-490f-b893-f798c4bfa904",
+                "type": "nodetool.input.StringInput",
+                "data": {
+                    "name": "Topic",
+                    "value": "",
+                    "description": "the topic for the lesson"
+                },
+                "ui_properties": {
+                    "selected": false,
+                    "position": {
+                        "x": -119,
+                        "y": 180
+                    },
+                    "zIndex": 0,
+                    "width": 200,
+                    "selectable": true
+                },
+                "dynamic_properties": {},
+                "dynamic_outputs": {},
+                "sync_mode": "on_any"
+            }
+        ]
+    },
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "Topic": {
+                "type": "string",
+                "default": "",
+                "label": ""
+            }
+        },
+        "required": [
+            "Topic"
+        ]
+    },
+    "output_schema": {
+        "type": "object",
+        "properties": {
+            "lesson": {
+                "type": "string",
+                "label": ""
+            }
+        },
+        "required": [
+            "lesson"
+        ]
+    },
+    "settings": {},
+    "package_name": null,
+    "path": null,
+    "run_mode": "workflow",
+    "required_providers": null,
+    "required_models": null
+}

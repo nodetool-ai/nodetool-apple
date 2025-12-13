@@ -1,0 +1,239 @@
+{
+    "id": "",
+    "access": "private",
+    "created_at": "2025-12-12T23:47:38.807791",
+    "updated_at": "2025-12-13T00:23:36.229948",
+    "name": "Speech To Note",
+    "tool_name": null,
+    "description": "",
+    "tags": null,
+    "thumbnail": "",
+    "thumbnail_url": null,
+    "graph": {
+        "edges": [
+            {
+                "id": "f4dc4648-1173-4237-be1f-2fad64f0da05",
+                "source": "f15edbc6-0571-43bb-a67d-1f3083babbbc",
+                "sourceHandle": "text",
+                "target": "6fc96f56-70d0-46fe-95d1-6d83e42bae00",
+                "targetHandle": "body",
+                "ui_properties": {
+                    "className": "str"
+                }
+            },
+            {
+                "id": "ee9e262b-c8ac-4f44-97ee-aa1cfc7a7acd",
+                "source": "6f142b62-9b0e-486e-b484-9083efad661c",
+                "sourceHandle": "text",
+                "target": "f15edbc6-0571-43bb-a67d-1f3083babbbc",
+                "targetHandle": "prompt",
+                "ui_properties": {
+                    "className": "str"
+                }
+            },
+            {
+                "id": "09f68288-e464-4a93-b685-de62e55eb9e4",
+                "source": "afa196c1-8dc7-4dd0-b211-e56aea921482",
+                "sourceHandle": "output",
+                "target": "6f142b62-9b0e-486e-b484-9083efad661c",
+                "targetHandle": "audio",
+                "ui_properties": {
+                    "className": "audio"
+                }
+            },
+            {
+                "id": "17d634f5-638c-4073-b615-9d50ee9919e6",
+                "source": "f15edbc6-0571-43bb-a67d-1f3083babbbc",
+                "sourceHandle": "text",
+                "target": "71d916a3-6329-47b6-bf6e-385f557b582d",
+                "targetHandle": "value",
+                "ui_properties": {
+                    "className": "str"
+                }
+            }
+        ],
+        "nodes": [
+            {
+                "id": "6fc96f56-70d0-46fe-95d1-6d83e42bae00",
+                "type": "apple.notes.CreateNote",
+                "data": {
+                    "title": "",
+                    "folder": "Notes"
+                },
+                "ui_properties": {
+                    "selected": false,
+                    "position": {
+                        "x": 613,
+                        "y": 270
+                    },
+                    "zIndex": 0,
+                    "width": 200,
+                    "selectable": true
+                },
+                "dynamic_properties": {},
+                "dynamic_outputs": {},
+                "sync_mode": "on_any"
+            },
+            {
+                "id": "f15edbc6-0571-43bb-a67d-1f3083babbbc",
+                "type": "nodetool.agents.Agent",
+                "data": {
+                    "model": {
+                        "type": "language_model",
+                        "id": "gemma3:270m",
+                        "provider": "ollama",
+                        "name": "gemma3:270m"
+                    },
+                    "system": "Write a note as response.",
+                    "image": {
+                        "type": "image",
+                        "uri": "",
+                        "asset_id": null,
+                        "data": null
+                    },
+                    "audio": {
+                        "type": "audio",
+                        "uri": "",
+                        "asset_id": null,
+                        "data": null
+                    },
+                    "history": [],
+                    "thread_id": null,
+                    "max_tokens": 8192,
+                    "context_window": 20000
+                },
+                "ui_properties": {
+                    "selected": false,
+                    "position": {
+                        "x": 383,
+                        "y": 155
+                    },
+                    "zIndex": 0,
+                    "width": 200,
+                    "selectable": true
+                },
+                "dynamic_properties": {},
+                "dynamic_outputs": {},
+                "sync_mode": "on_any"
+            },
+            {
+                "id": "6f142b62-9b0e-486e-b484-9083efad661c",
+                "type": "mlx.automatic_speech_recognition.Whisper",
+                "data": {
+                    "model": "mlx-community/whisper-tiny.en-mlx",
+                    "compression_ratio_threshold": 2.4,
+                    "logprob_threshold": -1,
+                    "no_speech_threshold": 0.6,
+                    "condition_on_previous_text": true,
+                    "word_timestamps": false
+                },
+                "ui_properties": {
+                    "selected": false,
+                    "position": {
+                        "x": 153,
+                        "y": 165
+                    },
+                    "zIndex": 0,
+                    "width": 200,
+                    "selectable": true
+                },
+                "dynamic_properties": {},
+                "dynamic_outputs": {},
+                "sync_mode": "on_any"
+            },
+            {
+                "id": "afa196c1-8dc7-4dd0-b211-e56aea921482",
+                "type": "nodetool.input.AudioInput",
+                "data": {
+                    "name": "audio",
+                    "value": {
+                        "asset_id": "47c17f20d7b011f0839f00007724a911",
+                        "uri": "http://localhost:7777/api/storage/47c17f20d7b011f0839f00007724a911.webm",
+                        "type": "audio"
+                    },
+                    "description": ""
+                },
+                "ui_properties": {
+                    "selected": false,
+                    "position": {
+                        "x": -77,
+                        "y": 243
+                    },
+                    "zIndex": 0,
+                    "width": 200,
+                    "selectable": true
+                },
+                "dynamic_properties": {},
+                "dynamic_outputs": {},
+                "sync_mode": "on_any"
+            },
+            {
+                "id": "71d916a3-6329-47b6-bf6e-385f557b582d",
+                "type": "nodetool.output.StringOutput",
+                "data": {
+                    "name": "note",
+                    "description": ""
+                },
+                "ui_properties": {
+                    "selected": false,
+                    "position": {
+                        "x": 632,
+                        "y": 523
+                    },
+                    "zIndex": 0,
+                    "width": 200,
+                    "selectable": true
+                },
+                "dynamic_properties": {},
+                "dynamic_outputs": {},
+                "sync_mode": "on_any"
+            }
+        ]
+    },
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "audio": {
+                "type": "object",
+                "properties": {
+                    "uri": {
+                        "type": "string",
+                        "format": "uri"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "audio"
+                        ]
+                    }
+                },
+                "required": [
+                    "uri",
+                    "type"
+                ],
+                "label": ""
+            }
+        },
+        "required": [
+            "audio"
+        ]
+    },
+    "output_schema": {
+        "type": "object",
+        "properties": {
+            "note": {
+                "type": "string",
+                "label": ""
+            }
+        },
+        "required": [
+            "note"
+        ]
+    },
+    "settings": {},
+    "package_name": null,
+    "path": null,
+    "run_mode": "workflow",
+    "required_providers": null,
+    "required_models": null
+}
