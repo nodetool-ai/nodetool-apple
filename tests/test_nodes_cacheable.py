@@ -1,5 +1,12 @@
 import pytest
-from nodetool.nodes.apple import calendar, notes, messages, speech, dictionary
+from nodetool.nodes.apple import (
+    calendar,
+    dictionary,
+    messages,
+    notes,
+    shortcuts,
+    speech,
+)
 
 CASES = [
     (calendar.CreateCalendarEvent, False),
@@ -9,6 +16,8 @@ CASES = [
     (messages.SendMessage, False),
     (speech.SayText, False),
     (dictionary.SearchDictionary, True),
+    (shortcuts.ListShortcuts, False),
+    (shortcuts.RunShortcut, False),
 ]
 
 

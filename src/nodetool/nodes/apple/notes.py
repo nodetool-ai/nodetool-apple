@@ -7,7 +7,6 @@ import tempfile
 import os
 from pathlib import Path
 import Foundation  # type: ignore
-import subprocess  # type: ignore
 
 
 export_notes_script = Path(__file__).parent / "exportnotes.applescript"

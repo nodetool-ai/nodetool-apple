@@ -4,7 +4,6 @@ from nodetool.workflows.base_node import BaseNode
 from nodetool.workflows.processing_context import ProcessingContext
 from nodetool.metadata.types import TextRef
 from nodetool.nodes.apple.notes import escape_for_applescript
-import subprocess  # type: ignore
 
 
 class SendMessage(BaseNode):

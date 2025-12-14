@@ -12,7 +12,9 @@ class CreateReminder(BaseNode):
     """
 
     title: str = Field(default="", description="Title of the reminder")
-    due_date: Datetime = Field(default=Datetime(), description="Due date for the reminder")
+    due_date: Datetime = Field(
+        default=Datetime(), description="Due date for the reminder"
+    )
     list_name: str = Field(
         default="Reminders", description="Name of the reminders list"
     )

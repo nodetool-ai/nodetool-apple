@@ -5,17 +5,17 @@ from nodetool.workflows.processing_context import ProcessingContext
 from nodetool.metadata.types import TextRef
 import AppKit  # type: ignore
 
-    # Get all available voices
-    # voices = AppKit.NSSpeechSynthesizer.availableVoices()
-    # for voice in voices:
-    #     # Get the voice attributes
-    #     attrs = AppKit.NSSpeechSynthesizer.attributesForVoice_(voice)
-    #     name = attrs["VoiceName"]
-    #     language = attrs["VoiceLanguage"]
-    #     print(f"Voice ID: {voice}")
-    #     print(f"Name: {name}")
-    #     print(f"Language: {language}")
-    #     print("---")
+# Get all available voices
+# voices = AppKit.NSSpeechSynthesizer.availableVoices()
+# for voice in voices:
+#     # Get the voice attributes
+#     attrs = AppKit.NSSpeechSynthesizer.attributesForVoice_(voice)
+#     name = attrs["VoiceName"]
+#     language = attrs["VoiceLanguage"]
+#     print(f"Voice ID: {voice}")
+#     print(f"Name: {name}")
+#     print(f"Language: {language}")
+#     print("---")
 
 
 class MacOSVoice(str, Enum):
