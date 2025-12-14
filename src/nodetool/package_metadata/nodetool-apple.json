@@ -1,7 +1,7 @@
 {
   "name": "nodetool-apple",
   "description": "Nodetool Apple nodes",
-  "version": "0.6.2-rc.10",
+  "version": "0.6.2-rc.11",
   "authors": [
     "Matthias Georgi <matti.georgi@gmail.com>"
   ],
@@ -73,6 +73,454 @@
         "y",
         "width",
         "height"
+      ]
+    },
+    {
+      "title": "Spotlight Metadata",
+      "description": "Read Spotlight metadata for a file using `mdls`.\n    spotlight, metadata, macos, retrieval\n\n    Use cases:\n    - Fetch title/authors/kind for retrieved files\n    - Inspect tags, content type, and dates\n    - Build structured context for agents",
+      "namespace": "apple.spotlight",
+      "node_type": "apple.spotlight.SpotlightMetadata",
+      "properties": [
+        {
+          "name": "file",
+          "type": {
+            "type": "asset"
+          },
+          "default": null,
+          "title": "File",
+          "description": "File to inspect (usually from SpotlightSearch)"
+        },
+        {
+          "name": "keys",
+          "type": {
+            "type": "list",
+            "type_args": [
+              {
+                "type": "str"
+              }
+            ]
+          },
+          "default": null,
+          "title": "Keys",
+          "description": "Optional mdls keys (e.g. ['kMDItemKind','kMDItemContentType']); empty means all"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "dict",
+            "type_args": [
+              {
+                "type": "str"
+              },
+              {
+                "type": "any"
+              }
+            ]
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "file",
+        "keys"
+      ]
+    },
+    {
+      "title": "Spotlight Search",
+      "description": "Search local files using macOS Spotlight (`mdfind`).\n    spotlight, search, macos, retrieval\n\n    Use cases:\n    - Local RAG: find relevant docs before summarization/QA\n    - Locate recently modified files by content/metadata\n    - Retrieve assets by tags, kind, or filename patterns",
+      "namespace": "apple.spotlight",
+      "node_type": "apple.spotlight.SpotlightSearch",
+      "properties": [
+        {
+          "name": "query",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Query",
+          "description": "Spotlight query (mdfind syntax)"
+        },
+        {
+          "name": "limit",
+          "type": {
+            "type": "int"
+          },
+          "default": 20,
+          "title": "Limit",
+          "description": "Maximum results to return",
+          "min": 0.0
+        },
+        {
+          "name": "only_in",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Only In",
+          "description": "Optional directory to constrain search to (passed to mdfind -onlyin)"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "list",
+            "type_args": [
+              {
+                "type": "asset"
+              }
+            ]
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "query",
+        "limit",
+        "only_in"
+      ]
+    },
+    {
+      "title": "Get Contact By Identifier",
+      "description": "Fetch a specific macOS Contact by identifier (CNContactStore).\n    contacts, macos, automation, retrieval\n\n    Use cases:\n    - Round-trip: SearchContacts \u2192 pick identifier \u2192 fetch full details\n    - Store a stable reference to a person in a workflow",
+      "namespace": "apple.contacts",
+      "node_type": "apple.contacts.GetContactByIdentifier",
+      "properties": [
+        {
+          "name": "identifier",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Identifier",
+          "description": "CNContact identifier"
+        },
+        {
+          "name": "include_emails",
+          "type": {
+            "type": "bool"
+          },
+          "default": true,
+          "title": "Include Emails",
+          "description": "Include email addresses"
+        },
+        {
+          "name": "include_phones",
+          "type": {
+            "type": "bool"
+          },
+          "default": true,
+          "title": "Include Phones",
+          "description": "Include phone numbers"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "dict"
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "identifier"
+      ]
+    },
+    {
+      "title": "Search Contacts",
+      "description": "Search macOS Contacts using the Contacts framework (CNContactStore).\n    contacts, macos, automation, retrieval\n\n    Use cases:\n    - Resolve a human name to emails/phone numbers before messaging\n    - Build \u201cwho should I notify?\u201d flows for agents\n    - Enrich workflow context with contact details",
+      "namespace": "apple.contacts",
+      "node_type": "apple.contacts.SearchContacts",
+      "properties": [
+        {
+          "name": "query",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Query",
+          "description": "Name/email/phone substring to search"
+        },
+        {
+          "name": "limit",
+          "type": {
+            "type": "int"
+          },
+          "default": 10,
+          "title": "Limit",
+          "description": "Maximum contacts to return",
+          "min": 0.0
+        },
+        {
+          "name": "include_emails",
+          "type": {
+            "type": "bool"
+          },
+          "default": true,
+          "title": "Include Emails",
+          "description": "Include email addresses"
+        },
+        {
+          "name": "include_phones",
+          "type": {
+            "type": "bool"
+          },
+          "default": true,
+          "title": "Include Phones",
+          "description": "Include phone numbers"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "list",
+            "type_args": [
+              {
+                "type": "dict"
+              }
+            ]
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "query",
+        "limit"
+      ]
+    },
+    {
+      "title": "OCRImage",
+      "description": "Extract text from an image using Apple's Vision framework (VNRecognizeTextRequest).\n    vision, ocr, macos, automation\n\n    Use cases:\n    - Screenshot \u2192 OCR \u2192 summarize / classify\n    - Read text from receipts, dialogs, error messages\n    - Turn UI text into reminders/notes/messages",
+      "namespace": "apple.vision",
+      "node_type": "apple.vision.OCRImage",
+      "properties": [
+        {
+          "name": "image",
+          "type": {
+            "type": "image"
+          },
+          "default": null,
+          "title": "Image",
+          "description": "Image to run OCR on"
+        },
+        {
+          "name": "recognition_level",
+          "type": {
+            "type": "enum",
+            "values": [
+              "fast",
+              "accurate"
+            ],
+            "type_name": "nodetool.nodes.apple.vision.OCRImage.RecognitionLevel"
+          },
+          "default": "accurate",
+          "title": "Recognition Level",
+          "description": "OCR speed/accuracy tradeoff"
+        },
+        {
+          "name": "languages",
+          "type": {
+            "type": "list",
+            "type_args": [
+              {
+                "type": "str"
+              }
+            ]
+          },
+          "default": null,
+          "title": "Languages",
+          "description": "Optional BCP-47 language codes (e.g. ['en-US','de-DE'])"
+        },
+        {
+          "name": "uses_language_correction",
+          "type": {
+            "type": "bool"
+          },
+          "default": true,
+          "title": "Uses Language Correction",
+          "description": "Enable language correction"
+        },
+        {
+          "name": "min_confidence",
+          "type": {
+            "type": "float"
+          },
+          "default": 0.0,
+          "title": "Min Confidence",
+          "description": "Drop recognized strings below this confidence",
+          "min": 0.0,
+          "max": 1.0
+        },
+        {
+          "name": "join_with",
+          "type": {
+            "type": "str"
+          },
+          "default": "\n",
+          "title": "Join With",
+          "description": "How to join recognized lines into the output text"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "text"
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "image",
+        "recognition_level",
+        "languages",
+        "min_confidence"
+      ]
+    },
+    {
+      "title": "List Shortcuts",
+      "description": "List Shortcuts available on the current macOS user account via the `shortcuts` CLI.\n    shortcuts, macos, automation, productivity\n\n    Use cases:\n    - Populate a UI dropdown of available shortcuts\n    - Verify a shortcut exists before running it\n    - Discover \u201cbuilding block\u201d shortcuts for an agent",
+      "namespace": "apple.shortcuts",
+      "node_type": "apple.shortcuts.ListShortcuts",
+      "outputs": [
+        {
+          "type": {
+            "type": "list",
+            "type_args": [
+              {
+                "type": "str"
+              }
+            ]
+          },
+          "name": "output"
+        }
+      ]
+    },
+    {
+      "title": "Run Shortcut",
+      "description": "Run an Apple Shortcut via the `shortcuts` CLI, with optional file/text input and captured output.\n    shortcuts, macos, automation, productivity\n\n    Use cases:\n    - Trigger complex app automations built in Shortcuts (Mail, Finder, Home, etc.)\n    - Provide a human-approval \u201cgate\u201d inside Shortcuts before side effects\n    - Bridge AI workflows to native macOS actions without bespoke API code",
+      "namespace": "apple.shortcuts",
+      "node_type": "apple.shortcuts.RunShortcut",
+      "properties": [
+        {
+          "name": "shortcut",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Shortcut",
+          "description": "Shortcut name or identifier to run"
+        },
+        {
+          "name": "inputs",
+          "type": {
+            "type": "list",
+            "type_args": [
+              {
+                "type": "asset"
+              }
+            ]
+          },
+          "default": null,
+          "title": "Inputs",
+          "description": "Optional files to pass into the shortcut as input"
+        },
+        {
+          "name": "input_text",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Input Text",
+          "description": "Optional text input; passed as a temporary .txt file"
+        },
+        {
+          "name": "output_type",
+          "type": {
+            "type": "str"
+          },
+          "default": "public.plain-text",
+          "title": "Output Type",
+          "description": "Shortcut output type as a UTI (e.g. public.plain-text, public.json)"
+        },
+        {
+          "name": "output_mode",
+          "type": {
+            "type": "enum",
+            "values": [
+              "text",
+              "document"
+            ],
+            "type_name": "nodetool.nodes.apple.shortcuts.RunShortcut.OutputMode"
+          },
+          "default": "text",
+          "title": "Output Mode",
+          "description": "Return output as text or as a stored document asset"
+        },
+        {
+          "name": "output_name",
+          "type": {
+            "type": "str"
+          },
+          "default": "shortcut-output.txt",
+          "title": "Output Name",
+          "description": "Asset name when output_mode=document"
+        },
+        {
+          "name": "output_content_type",
+          "type": {
+            "type": "str"
+          },
+          "default": "text/plain",
+          "title": "Output Content Type",
+          "description": "Asset content type when output_mode=document"
+        },
+        {
+          "name": "timeout_seconds",
+          "type": {
+            "type": "int"
+          },
+          "default": 120,
+          "title": "Timeout Seconds",
+          "description": "Max time to allow the shortcut to run",
+          "min": 1.0
+        },
+        {
+          "name": "decode_errors",
+          "type": {
+            "type": "enum",
+            "values": [
+              "strict",
+              "replace",
+              "ignore"
+            ],
+            "type_name": "nodetool.nodes.apple.shortcuts.RunShortcut.DecodeErrors"
+          },
+          "default": "replace",
+          "title": "Decode Errors",
+          "description": "How to handle output bytes decoding when output_mode=text"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "union",
+            "type_args": [
+              {
+                "type": "text"
+              },
+              {
+                "type": "document"
+              }
+            ]
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "shortcut",
+        "input_text",
+        "output_type",
+        "output_mode"
       ]
     },
     {
@@ -405,6 +853,62 @@
       ]
     },
     {
+      "title": "Post Notification",
+      "description": "Post a macOS Notification Center notification via AppleScript (`display notification`).\n    notifications, macos, automation, productivity\n\n    Use cases:\n    - Notify when a workflow finishes\n    - Surface an agent\u2019s result without switching apps\n    - Provide lightweight progress/status updates",
+      "namespace": "apple.notifications",
+      "node_type": "apple.notifications.PostNotification",
+      "properties": [
+        {
+          "name": "title",
+          "type": {
+            "type": "str"
+          },
+          "default": "Nodetool",
+          "title": "Title",
+          "description": "Notification title"
+        },
+        {
+          "name": "subtitle",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Subtitle",
+          "description": "Notification subtitle"
+        },
+        {
+          "name": "message",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Message",
+          "description": "Notification message body"
+        },
+        {
+          "name": "sound_name",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Sound Name",
+          "description": "Optional sound name (e.g. 'Glass'); empty means no sound"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "bool"
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "title",
+        "message"
+      ]
+    },
+    {
       "title": "Say Text",
       "description": "Speak text using macOS's built-in text-to-speech\n    speech, automation, macos, accessibility\n\n    Use cases:\n    - Add voice notifications to workflows\n    - Create audio feedback\n    - Accessibility features",
       "namespace": "apple.speech",
@@ -646,6 +1150,90 @@
       ]
     },
     {
+      "title": "Get Clipboard Image",
+      "description": "Read an image from the macOS clipboard (NSPasteboard) and return it as an ImageRef.\n    clipboard, macos, automation, media\n\n    Use cases:\n    - Copy an image/screenshot and run vision/OCR downstream\n    - Quick \u201ccopy image \u2192 caption \u2192 paste alt text\u201d flows\n    - Route clipboard images into Notes/Files shortcuts",
+      "namespace": "apple.clipboard",
+      "node_type": "apple.clipboard.GetClipboardImage",
+      "outputs": [
+        {
+          "type": {
+            "type": "image"
+          },
+          "name": "output"
+        }
+      ]
+    },
+    {
+      "title": "Get Clipboard Text",
+      "description": "Read plain text from the macOS clipboard (NSPasteboard).\n    clipboard, macos, automation, productivity\n\n    Use cases:\n    - \u201cCopy \u2192 summarize \u2192 paste back\u201d workflows\n    - Use current selection as agent input\n    - Lightweight handoff between apps and nodetool",
+      "namespace": "apple.clipboard",
+      "node_type": "apple.clipboard.GetClipboardText",
+      "outputs": [
+        {
+          "type": {
+            "type": "text"
+          },
+          "name": "output"
+        }
+      ]
+    },
+    {
+      "title": "Set Clipboard Image",
+      "description": "Write an image to the macOS clipboard (NSPasteboard).\n    clipboard, macos, automation, media\n\n    Use cases:\n    - Put a generated/processed image on the clipboard for quick paste\n    - Copy charts/visualizations into Keynote/Slack/etc.\n    - Human review loop: generate image \u2192 copy \u2192 paste somewhere",
+      "namespace": "apple.clipboard",
+      "node_type": "apple.clipboard.SetClipboardImage",
+      "properties": [
+        {
+          "name": "image",
+          "type": {
+            "type": "image"
+          },
+          "default": null,
+          "title": "Image",
+          "description": "Image to put on the clipboard"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "bool"
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "image"
+      ]
+    },
+    {
+      "title": "Set Clipboard Text",
+      "description": "Write plain text to the macOS clipboard (NSPasteboard).\n    clipboard, macos, automation, productivity\n\n    Use cases:\n    - Put an LLM result on the clipboard for quick paste\n    - Provide human-in-the-loop editing via copy/paste\n    - Copy generated commands/snippets into other apps",
+      "namespace": "apple.clipboard",
+      "node_type": "apple.clipboard.SetClipboardText",
+      "properties": [
+        {
+          "name": "text",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Text",
+          "description": "Text to put on the clipboard"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "bool"
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "text"
+      ]
+    },
+    {
       "title": "Search Dictionary",
       "description": "Search macOS Dictionary.app using Dictionary Services API\n    dictionary, automation, macos, reference\n\n    Use cases:\n    - Look up word definitions programmatically\n    - Check spelling and usage\n    - Access dictionary content in workflows",
       "namespace": "apple.dictionary",
@@ -687,6 +1275,111 @@
         "term",
         "max_results"
       ]
+    },
+    {
+      "title": "Get Front Safari Tab",
+      "description": "Get URL/title of the front tab in Safari via AppleScript.\n    safari, browser, macos, automation\n\n    Use cases:\n    - Summarize what you're currently reading\n    - Save current page into Notes/Reminders\n    - Route the active URL into download/scrape workflows",
+      "namespace": "apple.safari",
+      "node_type": "apple.safari.GetFrontSafariTab",
+      "outputs": [
+        {
+          "type": {
+            "type": "dict"
+          },
+          "name": "output"
+        }
+      ]
+    },
+    {
+      "title": "Open Safari URL",
+      "description": "Open a URL in Safari via AppleScript.\n    safari, browser, macos, automation\n\n    Use cases:\n    - Open links from an agent step\n    - Jump to a search result for human verification\n    - Bring Safari to the foreground on demand",
+      "namespace": "apple.safari",
+      "node_type": "apple.safari.OpenSafariURL",
+      "properties": [
+        {
+          "name": "url",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Url",
+          "description": "URL to open in Safari"
+        },
+        {
+          "name": "activate",
+          "type": {
+            "type": "bool"
+          },
+          "default": true,
+          "title": "Activate",
+          "description": "Bring Safari to the foreground"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "bool"
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "url",
+        "activate"
+      ]
+    },
+    {
+      "title": "Safari Page Text",
+      "description": "Extract visible page text from the front Safari tab (via injected JavaScript).\n    safari, browser, macos, automation\n\n    Use cases:\n    - Summarize an article without copy/paste\n    - Feed page content into retrieval/notes pipelines\n    - Create \u201creading assistant\u201d workflows",
+      "namespace": "apple.safari",
+      "node_type": "apple.safari.SafariPageText",
+      "properties": [
+        {
+          "name": "max_chars",
+          "type": {
+            "type": "int"
+          },
+          "default": 50000,
+          "title": "Max Chars",
+          "description": "Truncate output to this many characters",
+          "min": 0.0
+        },
+        {
+          "name": "prefer_article",
+          "type": {
+            "type": "bool"
+          },
+          "default": true,
+          "title": "Prefer Article",
+          "description": "Prefer <article> text when present"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "text"
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "max_chars",
+        "prefer_article"
+      ]
+    },
+    {
+      "title": "Safari Selection Text",
+      "description": "Read the current text selection from the front Safari tab (via injected JavaScript).\n    safari, browser, macos, automation\n\n    Use cases:\n    - Copy a highlighted passage into an LLM prompt\n    - Turn selected text into a note/task\n    - Summarize just the selected section of a page",
+      "namespace": "apple.safari",
+      "node_type": "apple.safari.SafariSelectionText",
+      "outputs": [
+        {
+          "type": {
+            "type": "text"
+          },
+          "name": "output"
+        }
+      ]
     }
   ],
   "assets": [
@@ -702,6 +1395,17 @@
     }
   ],
   "examples": [
+    {
+      "id": "safari_summarizer",
+      "name": "Safari Summarizer",
+      "description": "Summarize the front Safari tab, copy the summary to the clipboard, and save it to Apple Notes.",
+      "tags": [
+        "safari",
+        "summarize",
+        "notes",
+        "clipboard"
+      ]
+    },
     {
       "id": "d6334072c63b11ef8f2a00003c606db5",
       "name": "Index Apple Notes",
@@ -719,6 +1423,39 @@
       "name": "Speech To Note",
       "description": "",
       "tags": []
+    },
+    {
+      "id": "spotlight_file_search",
+      "name": "Spotlight File Search",
+      "description": "Use macOS Spotlight (mdfind) to retrieve relevant local files for downstream AI/RAG workflows.",
+      "tags": [
+        "spotlight",
+        "search",
+        "retrieval",
+        "rag"
+      ]
+    },
+    {
+      "id": "ocr_screenshot_to_clipboard",
+      "name": "OCR Screenshot To Clipboard",
+      "description": "Take a screenshot, OCR it with Apple Vision, and copy recognized text to the clipboard.",
+      "tags": [
+        "ocr",
+        "vision",
+        "screenshot",
+        "clipboard"
+      ]
+    },
+    {
+      "id": "contacts_lookup",
+      "name": "Contacts Lookup",
+      "description": "Resolve a name to emails/phone numbers using the macOS Contacts framework.",
+      "tags": [
+        "contacts",
+        "messages",
+        "email",
+        "automation"
+      ]
     }
   ]
 }
