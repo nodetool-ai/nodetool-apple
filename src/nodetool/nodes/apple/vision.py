@@ -32,13 +32,13 @@ class OCRImage(BaseNode):
         FAST = "fast"
         ACCURATE = "accurate"
 
-    image: ImageRef = Field(description="Image to run OCR on")
+    image: ImageRef = Field(default=ImageRef(), description="Image to run OCR on")
     recognition_level: RecognitionLevel = Field(
         default=RecognitionLevel.ACCURATE,
         description="OCR speed/accuracy tradeoff",
     )
     languages: list[str] = Field(
-        default_factory=list,
+        default=[],
         description="Optional BCP-47 language codes (e.g. ['en-US','de-DE'])",
     )
     uses_language_correction: bool = Field(
@@ -49,10 +49,6 @@ class OCRImage(BaseNode):
         ge=0.0,
         le=1.0,
         description="Drop recognized strings below this confidence",
-    )
-    join_with: str = Field(
-        default="\n",
-        description="How to join recognized lines into the output text",
     )
 
     @classmethod
@@ -70,14 +66,17 @@ class OCRImage(BaseNode):
     @staticmethod
     def _cgimage_from_bytes(data: bytes):
         nsdata = OCRImage._nsdata_from_bytes(data)
-        image = AppKit.NSImage.alloc().initWithData_(nsdata)  # type: ignore
+        image = AppKit.NSImage.alloc().initWithData_(nsdata)
         if image is None:
             return None
-        rect = Foundation.NSMakeRect(0, 0, 0, 0)  # type: ignore
-        cg_image = image.CGImageForProposedRect_context_hints_(rect, None, None)  # type: ignore
+        
+        # 1. Pass None to let AppKit calculate the default rect
+        # 2. Unpack the result (image, rect)
+        cg_image, _ = image.CGImageForProposedRect_context_hints_(None, None, None)
+        
         return cg_image
 
-    async def process(self, context: ProcessingContext) -> TextRef:
+    async def process(self, context: ProcessingContext) -> str:
         if Vision is None:  # pragma: no cover
             raise RuntimeError(
                 "Vision framework is not available. Install `pyobjc-framework-Vision`."
@@ -125,4 +124,4 @@ class OCRImage(BaseNode):
             raise RuntimeError(f"OCR failed: {error}")
 
         lines = [t for (t, c) in recognized if c >= self.min_confidence]
-        return await context.text_from_str(self.join_with.join(lines))
+        return "\n".join(lines)

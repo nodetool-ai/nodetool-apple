@@ -54,7 +54,7 @@ class SpotlightSearch(BaseNode):
         paths = [p.decode("utf-8", errors="replace") for p in out.split(b"\x00") if p]
         return [p for p in paths if p.strip()]
 
-    async def process(self, context: ProcessingContext) -> list[AssetRef]:
+    async def process(self, context: ProcessingContext) -> list[str]:
         if not self.query.strip():
             return []
 
@@ -66,7 +66,7 @@ class SpotlightSearch(BaseNode):
         if self.limit:
             paths = paths[: self.limit]
 
-        return [AssetRef.from_file(p) for p in paths]
+        return paths
 
 
 class SpotlightMetadata(BaseNode):

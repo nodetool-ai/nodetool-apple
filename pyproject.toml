@@ -31,7 +31,13 @@ stable = ["nodetool-core==0.6.2-rc.11"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/nodetool"]
-artifacts = ["src/nodetool/package_metadata/nodetool-apple.json", "package_metadata/nodetool-apple.json", "assets/nodetool-apple/Language Lesson.png", "assets/nodetool-apple/Speech To Note.png"]
+artifacts = [
+    "src/nodetool/package_metadata/nodetool-apple.json",
+    "package_metadata/nodetool-apple.json",
+    "assets/nodetool-apple/Contacts Lookup.jpg",
+    "assets/nodetool-apple/Language Lesson.png",
+    "assets/nodetool-apple/Speech To Note.png"
+]
 
 [tool.ruff]
 extend-exclude = ["src/nodetool/dsl"]

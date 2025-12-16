@@ -167,7 +167,7 @@
             "type": "list",
             "type_args": [
               {
-                "type": "asset"
+                "type": "str"
               }
             ]
           },
@@ -299,7 +299,12 @@
           "type": {
             "type": "image"
           },
-          "default": null,
+          "default": {
+            "type": "image",
+            "uri": "",
+            "asset_id": null,
+            "data": null
+          },
           "title": "Image",
           "description": "Image to run OCR on"
         },
@@ -327,7 +332,7 @@
               }
             ]
           },
-          "default": null,
+          "default": [],
           "title": "Languages",
           "description": "Optional BCP-47 language codes (e.g. ['en-US','de-DE'])"
         },
@@ -350,21 +355,12 @@
           "description": "Drop recognized strings below this confidence",
           "min": 0.0,
           "max": 1.0
-        },
-        {
-          "name": "join_with",
-          "type": {
-            "type": "str"
-          },
-          "default": "\n",
-          "title": "Join With",
-          "description": "How to join recognized lines into the output text"
         }
       ],
       "outputs": [
         {
           "type": {
-            "type": "text"
+            "type": "str"
           },
           "name": "output"
         }
@@ -1386,6 +1382,11 @@
     {
       "package_name": "nodetool-apple",
       "name": "Language Lesson.png",
+      "path": ""
+    },
+    {
+      "package_name": "nodetool-apple",
+      "name": "Contacts Lookup.jpg",
       "path": ""
     },
     {
