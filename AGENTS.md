@@ -10,6 +10,17 @@ This repository provides additional nodes for the [nodetool](https://github.com/
 - Each node must contain a short docstring describing the model and several example use cases.
 - Provide a `get_basic_fields` class method listing the most relevant fields
 
+## ⚠️ Python Environment (IMPORTANT)
+
+**Local Development:** Use the conda `nodetool` environment. Do not use system Python.
+
+```bash
+conda activate nodetool
+# then run commands normally
+```
+
+**GitHub CI / Copilot Agent:** Uses standard Python 3.11 with pip. Dependencies are pre-installed via `.github/workflows/copilot-setup-steps.yml`. Run commands directly without conda.
+
 ## Commands
 
 After adding or changing nodes run these commands to generate metadata and DSL.
