@@ -1,7 +1,7 @@
 {
   "name": "nodetool-apple",
   "description": "Nodetool Apple nodes",
-  "version": "0.6.2-rc.11",
+  "version": "0.6.2-rc.12",
   "authors": [
     "Matthias Georgi <matti.georgi@gmail.com>"
   ],
@@ -88,7 +88,8 @@
           },
           "default": null,
           "title": "File",
-          "description": "File to inspect (usually from SpotlightSearch)"
+          "description": "File to inspect (usually from SpotlightSearch)",
+          "required": true
         },
         {
           "name": "keys",
@@ -102,7 +103,8 @@
           },
           "default": null,
           "title": "Keys",
-          "description": "Optional mdls keys (e.g. ['kMDItemKind','kMDItemContentType']); empty means all"
+          "description": "Optional mdls keys (e.g. ['kMDItemKind','kMDItemContentType']); empty means all",
+          "required": true
         }
       ],
       "outputs": [
@@ -418,7 +420,8 @@
           },
           "default": null,
           "title": "Inputs",
-          "description": "Optional files to pass into the shortcut as input"
+          "description": "Optional files to pass into the shortcut as input",
+          "required": true
         },
         {
           "name": "input_text",
@@ -1186,7 +1189,8 @@
           },
           "default": null,
           "title": "Image",
-          "description": "Image to put on the clipboard"
+          "description": "Image to put on the clipboard",
+          "required": true
         }
       ],
       "outputs": [
