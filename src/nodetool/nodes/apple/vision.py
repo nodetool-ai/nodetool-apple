@@ -69,11 +69,11 @@ class OCRImage(BaseNode):
         image = AppKit.NSImage.alloc().initWithData_(nsdata)
         if image is None:
             return None
-        
+
         # 1. Pass None to let AppKit calculate the default rect
         # 2. Unpack the result (image, rect)
         cg_image, _ = image.CGImageForProposedRect_context_hints_(None, None, None)
-        
+
         return cg_image
 
     async def process(self, context: ProcessingContext) -> str:

@@ -122,4 +122,8 @@ poetry.lock
 
 # OS specific files
 .DS_Store
-Thumbs.db 
+Thumbs.db
+
+# Conda environment artifacts
+conda_env.tgz
+conda_env/
