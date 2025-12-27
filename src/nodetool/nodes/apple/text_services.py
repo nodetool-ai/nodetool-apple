@@ -4,7 +4,6 @@ Text and language services nodes using macOS frameworks.
 
 from __future__ import annotations
 
-import subprocess
 from enum import Enum
 
 from pydantic import Field

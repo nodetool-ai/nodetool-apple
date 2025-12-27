@@ -1,5 +1,7 @@
 """Tests for new Apple nodes utility functions."""
 
+import asyncio
+
 import pytest
 
 
@@ -33,7 +35,6 @@ def test_text_case_enum_values():
 def test_word_count_basic():
     """Test WordCount node basic functionality."""
     from nodetool.nodes.apple.text_services import WordCount
-    import asyncio
 
     node = WordCount(text="Hello world. This is a test.")
 
@@ -41,7 +42,7 @@ def test_word_count_basic():
     class MockContext:
         pass
 
-    result = asyncio.get_event_loop().run_until_complete(node.process(MockContext()))
+    result = asyncio.run(node.process(MockContext()))
     assert result["words"] == 6
     assert result["characters"] > 0
 
@@ -49,7 +50,6 @@ def test_word_count_basic():
 def test_extract_urls():
     """Test ExtractURLs node."""
     from nodetool.nodes.apple.text_services import ExtractURLs
-    import asyncio
 
     text = "Check out https://example.com and also http://test.org/page for more info."
     node = ExtractURLs(text=text)
@@ -57,7 +57,7 @@ def test_extract_urls():
     class MockContext:
         pass
 
-    result = asyncio.get_event_loop().run_until_complete(node.process(MockContext()))
+    result = asyncio.run(node.process(MockContext()))
     assert "https://example.com" in result
     assert "http://test.org/page" in result
 
@@ -65,7 +65,6 @@ def test_extract_urls():
 def test_extract_emails():
     """Test ExtractEmails node."""
     from nodetool.nodes.apple.text_services import ExtractEmails
-    import asyncio
 
     text = "Contact us at support@example.com or sales@test.org."
     node = ExtractEmails(text=text)
@@ -73,7 +72,7 @@ def test_extract_emails():
     class MockContext:
         pass
 
-    result = asyncio.get_event_loop().run_until_complete(node.process(MockContext()))
+    result = asyncio.run(node.process(MockContext()))
     assert "support@example.com" in result
     assert "sales@test.org" in result
 

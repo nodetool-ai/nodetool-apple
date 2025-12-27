@@ -5,7 +5,6 @@ System-level macOS automation nodes for controlling volume, display, apps, and s
 from __future__ import annotations
 
 import subprocess
-from enum import Enum
 from typing import Any
 
 from pydantic import Field
