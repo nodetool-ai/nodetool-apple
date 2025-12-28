@@ -19,7 +19,7 @@ import nodetool.nodes.apple.vision
 from nodetool.workflows.base_node import BaseNode
 
 
-class OCRImage(SingleOutputGraphNode[types.TextRef], GraphNode[types.TextRef]):
+class OCRImage(SingleOutputGraphNode[str], GraphNode[str]):
     """
 
     Extract text from an image using Apple's Vision framework (VNRecognizeTextRequest).
@@ -36,14 +36,17 @@ class OCRImage(SingleOutputGraphNode[types.TextRef], GraphNode[types.TextRef]):
     )
 
     image: types.ImageRef | OutputHandle[types.ImageRef] = connect_field(
-        default=PydanticUndefined, description="Image to run OCR on"
+        default=types.ImageRef(
+            type="image", uri="", asset_id=None, data=None, metadata=None
+        ),
+        description="Image to run OCR on",
     )
     recognition_level: nodetool.nodes.apple.vision.OCRImage.RecognitionLevel = Field(
         default=nodetool.nodes.apple.vision.OCRImage.RecognitionLevel.ACCURATE,
         description="OCR speed/accuracy tradeoff",
     )
     languages: list[str] | OutputHandle[list[str]] = connect_field(
-        default=PydanticUndefined,
+        default=[],
         description="Optional BCP-47 language codes (e.g. ['en-US','de-DE'])",
     )
     uses_language_correction: bool | OutputHandle[bool] = connect_field(
@@ -51,9 +54,6 @@ class OCRImage(SingleOutputGraphNode[types.TextRef], GraphNode[types.TextRef]):
     )
     min_confidence: float | OutputHandle[float] = connect_field(
         default=0.0, description="Drop recognized strings below this confidence"
-    )
-    join_with: str | OutputHandle[str] = connect_field(
-        default="\n", description="How to join recognized lines into the output text"
     )
 
     @classmethod

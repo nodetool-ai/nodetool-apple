@@ -17,8 +17,8 @@ if IS_MACOS:
     import nodetool.nodes.apple.notes
     import nodetool.nodes.apple.photos
     import nodetool.nodes.apple.reminders
-    import nodetool.nodes.apple.safari
-    import nodetool.nodes.apple.screen
+    
+    import nodetool.nodes.apple.window_management
     import nodetool.nodes.apple.shortcuts
     import nodetool.nodes.apple.speech
     import nodetool.nodes.apple.spotlight

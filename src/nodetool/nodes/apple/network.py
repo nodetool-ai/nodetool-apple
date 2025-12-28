@@ -186,31 +186,6 @@ class GetLocalIP(BaseNode):
         return ""
 
 
-class GetHostname(BaseNode):
-    """
-    Get the hostname of this machine.
-    network, hostname, macos, automation
-
-    Use cases:
-    - Identify machine in workflows
-    - Multi-machine coordination
-    - Network service setup
-    """
-
-    @classmethod
-    def get_basic_fields(cls) -> list[str]:
-        return []
-
-    @classmethod
-    def is_cacheable(cls) -> bool:
-        return True
-
-    async def process(self, context: ProcessingContext) -> str:
-        import socket
-
-        return socket.gethostname()
-
-
 class PingHost(BaseNode):
     """
     Ping a host to check network connectivity.

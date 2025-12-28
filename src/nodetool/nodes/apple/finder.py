@@ -163,36 +163,6 @@ class MoveToTrash(BaseNode):
         return True
 
 
-class CreateFolder(BaseNode):
-    """
-    Create a new folder at the specified path.
-    finder, files, macos, automation
-
-    Use cases:
-    - Set up folder structure for workflow output
-    - Organize files into new directories
-    - Create dated/named folders for batches
-    """
-
-    path: str = Field(default="", description="Full path for the new folder")
-
-    @classmethod
-    def get_basic_fields(cls) -> list[str]:
-        return ["path"]
-
-    @classmethod
-    def is_cacheable(cls) -> bool:
-        return False
-
-    async def process(self, context: ProcessingContext) -> bool:
-        if not self.path.strip():
-            raise ValueError("path is required")
-
-        folder_path = Path(self.path).expanduser()
-        folder_path.mkdir(parents=True, exist_ok=True)
-        return True
-
-
 class FinderTag(str, Enum):
     """Standard Finder tag colors."""
 

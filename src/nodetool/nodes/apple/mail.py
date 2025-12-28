@@ -295,3 +295,142 @@ class SendMail(BaseNode):
         """
         _run_osascript(script)
         return True
+
+
+class SearchMails(BaseNode):
+    """
+    Search and list emails from Apple Mail with flexible filtering.
+    mail, email, macos, automation, search
+
+    Use cases:
+    - Find emails matching specific criteria
+    - List recent emails from a specific sender
+    - Filter emails by subject or content
+    - Get unread emails from a mailbox
+    """
+
+    mailbox: str = Field(
+        default="INBOX", description="Mailbox name to search (default: INBOX)"
+    )
+    account: str = Field(
+        default="", description="Account name (optional, searches all if empty)"
+    )
+    subject_contains: str = Field(
+        default="", description="Filter emails where subject contains this text"
+    )
+    sender_contains: str = Field(
+        default="", description="Filter emails where sender contains this text"
+    )
+    unread_only: bool = Field(
+        default=False, description="Only return unread emails"
+    )
+    limit: int = Field(
+        default=50, description="Maximum number of emails to return", ge=1, le=500
+    )
+
+    @classmethod
+    def get_basic_fields(cls) -> list[str]:
+        return ["mailbox", "subject_contains", "sender_contains"]
+
+    @classmethod
+    def is_cacheable(cls) -> bool:
+        return False
+
+    async def process(self, context: ProcessingContext) -> list[dict]:
+        # Build the mailbox reference
+        mailbox_escaped = escape_for_applescript(self.mailbox)
+        
+        if self.account.strip():
+            account_escaped = escape_for_applescript(self.account)
+            mailbox_ref = f'mailbox "{mailbox_escaped}" of account "{account_escaped}"'
+        else:
+            # Use inbox as default which works across accounts
+            if self.mailbox.upper() == "INBOX":
+                mailbox_ref = "inbox"
+            else:
+                mailbox_ref = f'mailbox "{mailbox_escaped}"'
+
+        # Build filter conditions for AppleScript
+        filter_conditions = []
+        
+        if self.subject_contains.strip():
+            subject_filter = escape_for_applescript(self.subject_contains.lower())
+            filter_conditions.append(
+                f'(subject of msg as text) contains "{subject_filter}"'
+            )
+        
+        if self.sender_contains.strip():
+            sender_filter = escape_for_applescript(self.sender_contains.lower())
+            filter_conditions.append(
+                f'(sender of msg as text) contains "{sender_filter}"'
+            )
+        
+        if self.unread_only:
+            filter_conditions.append("read status of msg is false")
+
+        # Combine conditions
+        if filter_conditions:
+            condition_str = " and ".join(filter_conditions)
+            filter_check = f"if ({condition_str}) then"
+            filter_end = "end if"
+        else:
+            filter_check = ""
+            filter_end = ""
+
+        script = f"""
+        tell application "Mail"
+            set output to ""
+            set msgCount to 0
+            set maxMsgs to {self.limit}
+            
+            try
+                set allMessages to messages of {mailbox_ref}
+            on error
+                return ""
+            end try
+            
+            repeat with msg in allMessages
+                if msgCount >= maxMsgs then exit repeat
+                
+                try
+                    {filter_check}
+                        set msgSubject to subject of msg
+                        set msgSender to sender of msg
+                        set msgDate to date sent of msg as string
+                        set msgRead to read status of msg
+                        set msgContent to content of msg
+                        
+                        -- Use delimiters that are unlikely in email content
+                        set readStr to "true"
+                        if not msgRead then set readStr to "false"
+                        
+                        set output to output & msgSubject & "|||" & msgSender & "|||" & msgDate & "|||" & readStr & "|||" & msgContent & "###MSG###"
+                        set msgCount to msgCount + 1
+                    {filter_end}
+                end try
+            end repeat
+            
+            return output
+        end tell
+        """
+        
+        out = _run_osascript(script)
+        if not out:
+            return []
+
+        messages = []
+        for msg_str in out.split("###MSG###"):
+            if not msg_str.strip():
+                continue
+            parts = msg_str.split("|||")
+            if len(parts) >= 5:
+                messages.append(
+                    {
+                        "subject": parts[0],
+                        "sender": parts[1],
+                        "date": parts[2],
+                        "read": parts[3] == "true",
+                        "content": parts[4],
+                    }
+                )
+        return messages
