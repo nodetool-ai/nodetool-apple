@@ -19,7 +19,311 @@ import nodetool.nodes.apple.messages
 from nodetool.workflows.base_node import BaseNode
 
 
-class SendMessage(SingleOutputGraphNode[typing.Any], GraphNode[typing.Any]):
+class GetConversationDetails(SingleOutputGraphNode[dict], GraphNode[dict]):
+    """
+
+    Get detailed information about a specific conversation.
+    messages, imessage, automation, macos, communication
+
+    Use cases:
+    - Get conversation metadata
+    - Check conversation properties
+    - Analyze chat characteristics
+    """
+
+    participant: str | OutputHandle[str] = connect_field(
+        default="",
+        description="Phone number, email, or contact name to get details for",
+    )
+
+    @classmethod
+    def get_node_class(cls) -> type[BaseNode]:
+        return nodetool.nodes.apple.messages.GetConversationDetails
+
+    @classmethod
+    def get_node_type(cls):
+        return cls.get_node_class().get_node_type()
+
+
+import typing
+from pydantic import Field
+from nodetool.dsl.handles import OutputHandle, OutputsProxy, connect_field
+import nodetool.nodes.apple.messages
+from nodetool.workflows.base_node import BaseNode
+
+
+class GetLatestMessage(SingleOutputGraphNode[dict], GraphNode[dict]):
+    """
+
+    Get the most recent message from a conversation.
+    messages, imessage, automation, macos, communication
+
+    Use cases:
+    - Check for new messages
+    - Get latest conversation update
+    - Monitor message activity
+    """
+
+    participant: str | OutputHandle[str] = connect_field(
+        default="",
+        description="Phone number, email, or contact name to get latest message from",
+    )
+
+    @classmethod
+    def get_node_class(cls) -> type[BaseNode]:
+        return nodetool.nodes.apple.messages.GetLatestMessage
+
+    @classmethod
+    def get_node_type(cls):
+        return cls.get_node_class().get_node_type()
+
+
+import typing
+from pydantic import Field
+from nodetool.dsl.handles import OutputHandle, OutputsProxy, connect_field
+import nodetool.nodes.apple.messages
+from nodetool.workflows.base_node import BaseNode
+
+
+class GetRecentMessages(SingleOutputGraphNode[list[dict]], GraphNode[list[dict]]):
+    """
+
+    Get recent messages from a specific conversation in Messages.app.
+    messages, imessage, automation, macos, communication
+
+    Use cases:
+    - Read recent conversation history
+    - Monitor messages from a specific contact
+    - Extract message data for processing
+    """
+
+    participant: str | OutputHandle[str] = connect_field(
+        default="",
+        description="Phone number, email, or contact name to get messages from",
+    )
+    limit: int | OutputHandle[int] = connect_field(
+        default=20, description="Maximum number of messages to retrieve"
+    )
+
+    @classmethod
+    def get_node_class(cls) -> type[BaseNode]:
+        return nodetool.nodes.apple.messages.GetRecentMessages
+
+    @classmethod
+    def get_node_type(cls):
+        return cls.get_node_class().get_node_type()
+
+
+import typing
+from pydantic import Field
+from nodetool.dsl.handles import OutputHandle, OutputsProxy, connect_field
+import nodetool.nodes.apple.messages
+from nodetool.workflows.base_node import BaseNode
+
+
+class GetUnreadMessageCount(SingleOutputGraphNode[int], GraphNode[int]):
+    """
+
+    Get the count of unread messages in Messages.app.
+    messages, imessage, automation, macos, communication
+
+    Use cases:
+    - Check for new messages in workflows
+    - Trigger actions based on unread count
+    - Monitor message status
+    """
+
+    @classmethod
+    def get_node_class(cls) -> type[BaseNode]:
+        return nodetool.nodes.apple.messages.GetUnreadMessageCount
+
+    @classmethod
+    def get_node_type(cls):
+        return cls.get_node_class().get_node_type()
+
+
+import typing
+from pydantic import Field
+from nodetool.dsl.handles import OutputHandle, OutputsProxy, connect_field
+import nodetool.nodes.apple.messages
+from nodetool.workflows.base_node import BaseNode
+
+
+class ListConversations(SingleOutputGraphNode[list[dict]], GraphNode[list[dict]]):
+    """
+
+    List all chat conversations in Messages.app.
+    messages, imessage, automation, macos, communication
+
+    Use cases:
+    - Discover available conversations
+    - Get list of contacts you've messaged
+    - Find conversation IDs for further processing
+    """
+
+    limit: int | OutputHandle[int] = connect_field(
+        default=50, description="Maximum number of conversations to retrieve"
+    )
+
+    @classmethod
+    def get_node_class(cls) -> type[BaseNode]:
+        return nodetool.nodes.apple.messages.ListConversations
+
+    @classmethod
+    def get_node_type(cls):
+        return cls.get_node_class().get_node_type()
+
+
+import typing
+from pydantic import Field
+from nodetool.dsl.handles import OutputHandle, OutputsProxy, connect_field
+import nodetool.nodes.apple.messages
+from nodetool.workflows.base_node import BaseNode
+
+
+class MarkAsRead(SingleOutputGraphNode[bool], GraphNode[bool]):
+    """
+
+    Mark all messages from a participant as read.
+    messages, imessage, automation, macos, communication
+
+    Use cases:
+    - Clear unread notifications from a contact
+    - Mark automated messages as read
+    - Reset conversation status
+    """
+
+    participant: str | OutputHandle[str] = connect_field(
+        default="", description="Phone number, email, or contact name to mark as read"
+    )
+
+    @classmethod
+    def get_node_class(cls) -> type[BaseNode]:
+        return nodetool.nodes.apple.messages.MarkAsRead
+
+    @classmethod
+    def get_node_type(cls):
+        return cls.get_node_class().get_node_type()
+
+
+import typing
+from pydantic import Field
+from nodetool.dsl.handles import OutputHandle, OutputsProxy, connect_field
+import nodetool.nodes.apple.messages
+from nodetool.workflows.base_node import BaseNode
+
+
+class MarkAsUnread(SingleOutputGraphNode[bool], GraphNode[bool]):
+    """
+
+    Mark messages from a participant as unread.
+    messages, imessage, automation, macos, communication
+
+    Use cases:
+    - Flag messages for later review
+    - Highlight important conversations
+    - Create reminder notifications
+    """
+
+    participant: str | OutputHandle[str] = connect_field(
+        default="", description="Phone number, email, or contact name to mark as unread"
+    )
+
+    @classmethod
+    def get_node_class(cls) -> type[BaseNode]:
+        return nodetool.nodes.apple.messages.MarkAsUnread
+
+    @classmethod
+    def get_node_type(cls):
+        return cls.get_node_class().get_node_type()
+
+
+import typing
+from pydantic import Field
+from nodetool.dsl.handles import OutputHandle, OutputsProxy, connect_field
+import nodetool.nodes.apple.messages
+from nodetool.workflows.base_node import BaseNode
+
+
+class SearchMessages(SingleOutputGraphNode[list[dict]], GraphNode[list[dict]]):
+    """
+
+    Search through messages in Messages.app.
+    messages, imessage, automation, macos, communication, search
+
+    Use cases:
+    - Find messages containing specific text
+    - Search conversation history
+    - Locate specific information in messages
+    """
+
+    query: str | OutputHandle[str] = connect_field(
+        default="", description="Text to search for in messages"
+    )
+    participant: str | OutputHandle[str] = connect_field(
+        default="",
+        description="Optional: limit search to messages from/to this participant",
+    )
+    limit: int | OutputHandle[int] = connect_field(
+        default=50, description="Maximum number of results to return"
+    )
+
+    @classmethod
+    def get_node_class(cls) -> type[BaseNode]:
+        return nodetool.nodes.apple.messages.SearchMessages
+
+    @classmethod
+    def get_node_type(cls):
+        return cls.get_node_class().get_node_type()
+
+
+import typing
+from pydantic import Field
+from nodetool.dsl.handles import OutputHandle, OutputsProxy, connect_field
+import nodetool.nodes.apple.messages
+from nodetool.workflows.base_node import BaseNode
+
+
+class SendAttachment(SingleOutputGraphNode[bool], GraphNode[bool]):
+    """
+
+    Send a file attachment via iMessage.
+    messages, imessage, automation, macos, communication
+
+    Use cases:
+    - Send images or documents
+    - Share files in workflows
+    - Attach files to messages
+    """
+
+    recipient: str | OutputHandle[str] = connect_field(
+        default="",
+        description="Phone number, email, or contact name to send attachment to",
+    )
+    file_path: str | OutputHandle[str] = connect_field(
+        default="", description="Absolute path to the file to send"
+    )
+    message: str | OutputHandle[str] = connect_field(
+        default="", description="Optional message text to include with attachment"
+    )
+
+    @classmethod
+    def get_node_class(cls) -> type[BaseNode]:
+        return nodetool.nodes.apple.messages.SendAttachment
+
+    @classmethod
+    def get_node_type(cls):
+        return cls.get_node_class().get_node_type()
+
+
+import typing
+from pydantic import Field
+from nodetool.dsl.handles import OutputHandle, OutputsProxy, connect_field
+import nodetool.nodes.apple.messages
+from nodetool.workflows.base_node import BaseNode
+
+
+class SendMessage(SingleOutputGraphNode[bool], GraphNode[bool]):
     """
 
     Send messages using macOS Messages.app via AppleScript

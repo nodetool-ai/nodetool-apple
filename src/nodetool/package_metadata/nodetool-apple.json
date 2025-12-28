@@ -8,71 +8,600 @@
   "repo_id": "",
   "nodes": [
     {
-      "title": "Capture Screen",
-      "description": "Capture screen content via PyObjC\n    screen, automation, macos, media",
-      "namespace": "apple.screen",
-      "node_type": "apple.screen.CaptureScreen",
+      "title": "Detect Language",
+      "description": "Detect the dominant language of a text using CoreFoundation.\n    language, text, macos, automation\n\n    Use cases:\n    - Route text to appropriate translation services\n    - Language-aware content processing\n    - Multi-language workflow branching",
+      "namespace": "apple.text_services",
+      "node_type": "apple.text_services.DetectLanguage",
       "properties": [
         {
-          "name": "whole_screen",
+          "name": "text",
           "type": {
-            "type": "bool"
+            "type": "str"
           },
-          "default": true,
-          "title": "Whole Screen",
-          "description": "Capture the whole screen"
-        },
-        {
-          "name": "x",
-          "type": {
-            "type": "int"
-          },
-          "default": 0,
-          "title": "X",
-          "description": "X coordinate of the region to capture"
-        },
-        {
-          "name": "y",
-          "type": {
-            "type": "int"
-          },
-          "default": 0,
-          "title": "Y",
-          "description": "Y coordinate of the region to capture"
-        },
-        {
-          "name": "width",
-          "type": {
-            "type": "int"
-          },
-          "default": 1920,
-          "title": "Width",
-          "description": "Width of the region to capture"
-        },
-        {
-          "name": "height",
-          "type": {
-            "type": "int"
-          },
-          "default": 1080,
-          "title": "Height",
-          "description": "Height of the region to capture"
+          "default": "",
+          "title": "Text",
+          "description": "Text to analyze for language"
         }
       ],
       "outputs": [
         {
           "type": {
-            "type": "image"
+            "type": "str"
           },
           "name": "output"
         }
       ],
       "basic_fields": [
-        "whole_screen",
-        "x",
-        "y",
-        "width",
-        "height"
+        "text"
+      ]
+    },
+    {
+      "title": "Spell Check",
+      "description": "Check spelling in text using macOS spell checker.\n    spelling, text, macos, automation\n\n    Use cases:\n    - Validate text before sending/publishing\n    - Find typos in workflow inputs\n    - Quality control for generated content",
+      "namespace": "apple.text_services",
+      "node_type": "apple.text_services.SpellCheck",
+      "properties": [
+        {
+          "name": "text",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Text",
+          "description": "Text to spell check"
+        },
+        {
+          "name": "language",
+          "type": {
+            "type": "str"
+          },
+          "default": "en",
+          "title": "Language",
+          "description": "Language code for spell checking (e.g., 'en', 'de')"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "list",
+            "type_args": [
+              {
+                "type": "dict"
+              }
+            ]
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "text",
+        "language"
+      ]
+    },
+    {
+      "title": "Create Mail Draft",
+      "description": "Create a new email draft in Apple Mail (does not send).\n    mail, email, macos, automation\n\n    Use cases:\n    - Prepare emails for human review before sending\n    - Create bulk email drafts from workflow data\n    - Set up scheduled email preparation",
+      "namespace": "apple.mail",
+      "node_type": "apple.mail.CreateMailDraft",
+      "properties": [
+        {
+          "name": "to",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "To",
+          "description": "Recipient email address(es), comma-separated"
+        },
+        {
+          "name": "subject",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Subject",
+          "description": "Email subject line"
+        },
+        {
+          "name": "body",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Body",
+          "description": "Email body content"
+        },
+        {
+          "name": "cc",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Cc",
+          "description": "CC recipients, comma-separated"
+        },
+        {
+          "name": "bcc",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Bcc",
+          "description": "BCC recipients, comma-separated"
+        },
+        {
+          "name": "visible",
+          "type": {
+            "type": "bool"
+          },
+          "default": true,
+          "title": "Visible",
+          "description": "Show the draft window to the user"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "bool"
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "to",
+        "subject",
+        "body"
+      ]
+    },
+    {
+      "title": "Get Selected Mail Messages",
+      "description": "Get information about currently selected messages in Mail.\n    mail, email, macos, automation\n\n    Use cases:\n    - Process user-selected emails in workflows\n    - Extract content from selected emails\n    - Build email-based automation triggers",
+      "namespace": "apple.mail",
+      "node_type": "apple.mail.GetSelectedMailMessages",
+      "outputs": [
+        {
+          "type": {
+            "type": "list",
+            "type_args": [
+              {
+                "type": "dict"
+              }
+            ]
+          },
+          "name": "output"
+        }
+      ]
+    },
+    {
+      "title": "Get Unread Mail Count",
+      "description": "Get the count of unread emails in Mail.\n    mail, email, macos, automation\n\n    Use cases:\n    - Check for new emails in workflows\n    - Trigger actions based on unread count\n    - Monitor inbox status",
+      "namespace": "apple.mail",
+      "node_type": "apple.mail.GetUnreadMailCount",
+      "properties": [
+        {
+          "name": "mailbox",
+          "type": {
+            "type": "str"
+          },
+          "default": "INBOX",
+          "title": "Mailbox",
+          "description": "Mailbox name to check (default: INBOX)"
+        },
+        {
+          "name": "account",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Account",
+          "description": "Account name (optional, uses first if empty)"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "int"
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "mailbox",
+        "account"
+      ]
+    },
+    {
+      "title": "List Mail Accounts",
+      "description": "List all configured email accounts in Mail.\n    mail, email, macos, automation\n\n    Use cases:\n    - Discover available accounts for sending\n    - Select account for email operations\n    - Multi-account email workflows",
+      "namespace": "apple.mail",
+      "node_type": "apple.mail.ListMailAccounts",
+      "outputs": [
+        {
+          "type": {
+            "type": "list",
+            "type_args": [
+              {
+                "type": "str"
+              }
+            ]
+          },
+          "name": "output"
+        }
+      ]
+    },
+    {
+      "title": "Search Mails",
+      "description": "Search and list emails from Apple Mail with flexible filtering.\n    mail, email, macos, automation, search\n\n    Use cases:\n    - Find emails matching specific criteria\n    - List recent emails from a specific sender\n    - Filter emails by subject or content\n    - Get unread emails from a mailbox",
+      "namespace": "apple.mail",
+      "node_type": "apple.mail.SearchMails",
+      "properties": [
+        {
+          "name": "mailbox",
+          "type": {
+            "type": "str"
+          },
+          "default": "INBOX",
+          "title": "Mailbox",
+          "description": "Mailbox name to search (default: INBOX)"
+        },
+        {
+          "name": "account",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Account",
+          "description": "Account name (optional, searches all if empty)"
+        },
+        {
+          "name": "subject_contains",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Subject Contains",
+          "description": "Filter emails where subject contains this text"
+        },
+        {
+          "name": "sender_contains",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Sender Contains",
+          "description": "Filter emails where sender contains this text"
+        },
+        {
+          "name": "unread_only",
+          "type": {
+            "type": "bool"
+          },
+          "default": false,
+          "title": "Unread Only",
+          "description": "Only return unread emails"
+        },
+        {
+          "name": "limit",
+          "type": {
+            "type": "int"
+          },
+          "default": 50,
+          "title": "Limit",
+          "description": "Maximum number of emails to return",
+          "min": 1.0,
+          "max": 500.0
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "list",
+            "type_args": [
+              {
+                "type": "dict"
+              }
+            ]
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "mailbox",
+        "subject_contains",
+        "sender_contains"
+      ]
+    },
+    {
+      "title": "Send Mail",
+      "description": "Send an email via Apple Mail.\n    mail, email, macos, automation\n\n    Use cases:\n    - Send automated notifications\n    - Complete email workflows\n    - Alert on workflow completion\n\n    Note: This will actually send an email. Use CreateMailDraft for drafts.",
+      "namespace": "apple.mail",
+      "node_type": "apple.mail.SendMail",
+      "properties": [
+        {
+          "name": "to",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "To",
+          "description": "Recipient email address(es), comma-separated"
+        },
+        {
+          "name": "subject",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Subject",
+          "description": "Email subject line"
+        },
+        {
+          "name": "body",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Body",
+          "description": "Email body content"
+        },
+        {
+          "name": "from_account",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "From Account",
+          "description": "Account to send from (optional, uses default)"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "bool"
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "to",
+        "subject",
+        "body"
+      ]
+    },
+    {
+      "title": "Get Desktop Path",
+      "description": "Get the path to the user's Desktop folder.\n    finder, paths, macos, automation\n\n    Use cases:\n    - Save workflow outputs to Desktop for easy access\n    - Reference common user folders\n    - Cross-user compatible path resolution",
+      "namespace": "apple.finder",
+      "node_type": "apple.finder.GetDesktopPath",
+      "outputs": [
+        {
+          "type": {
+            "type": "str"
+          },
+          "name": "output"
+        }
+      ]
+    },
+    {
+      "title": "Get Documents Path",
+      "description": "Get the path to the user's Documents folder.\n    finder, paths, macos, automation\n\n    Use cases:\n    - Save important workflow outputs to Documents\n    - Access user documents for processing\n    - Cross-user compatible path resolution",
+      "namespace": "apple.finder",
+      "node_type": "apple.finder.GetDocumentsPath",
+      "outputs": [
+        {
+          "type": {
+            "type": "str"
+          },
+          "name": "output"
+        }
+      ]
+    },
+    {
+      "title": "Get Downloads Path",
+      "description": "Get the path to the user's Downloads folder.\n    finder, paths, macos, automation\n\n    Use cases:\n    - Process newly downloaded files\n    - Monitor downloads folder for automation triggers\n    - Save workflow outputs to Downloads",
+      "namespace": "apple.finder",
+      "node_type": "apple.finder.GetDownloadsPath",
+      "outputs": [
+        {
+          "type": {
+            "type": "str"
+          },
+          "name": "output"
+        }
+      ]
+    },
+    {
+      "title": "Get Finder Tag",
+      "description": "Get the color tag of a file or folder in Finder.\n    finder, tags, macos, automation\n\n    Use cases:\n    - Check if a file has been processed (tagged)\n    - Filter files by tag status\n    - Read existing organization for workflows",
+      "namespace": "apple.finder",
+      "node_type": "apple.finder.GetFinderTag",
+      "properties": [
+        {
+          "name": "path",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Path",
+          "description": "Path to the file or folder"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "int"
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "path"
+      ]
+    },
+    {
+      "title": "Get Front Finder Window",
+      "description": "Get the path of the frontmost Finder window's folder.\n    finder, navigation, macos, automation\n\n    Use cases:\n    - Know user's current working directory in Finder\n    - Context-aware file operations\n    - Save files to the currently viewed folder",
+      "namespace": "apple.finder",
+      "node_type": "apple.finder.GetFrontFinderWindow",
+      "outputs": [
+        {
+          "type": {
+            "type": "str"
+          },
+          "name": "output"
+        }
+      ]
+    },
+    {
+      "title": "Get Selected Finder Items",
+      "description": "Get the paths of currently selected items in Finder.\n    finder, files, macos, automation\n\n    Use cases:\n    - Process user-selected files in workflows\n    - Get context for \"right-click\" style automations\n    - Build on user's current file selection",
+      "namespace": "apple.finder",
+      "node_type": "apple.finder.GetSelectedFinderItems",
+      "outputs": [
+        {
+          "type": {
+            "type": "list",
+            "type_args": [
+              {
+                "type": "str"
+              }
+            ]
+          },
+          "name": "output"
+        }
+      ]
+    },
+    {
+      "title": "Move To Trash",
+      "description": "Move a file or folder to the Trash.\n    finder, files, macos, automation\n\n    Use cases:\n    - Clean up temporary files after processing\n    - Safe deletion with recovery option\n    - Batch file cleanup workflows",
+      "namespace": "apple.finder",
+      "node_type": "apple.finder.MoveToTrash",
+      "properties": [
+        {
+          "name": "path",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Path",
+          "description": "Path to the file or folder to trash"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "bool"
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "path"
+      ]
+    },
+    {
+      "title": "Open Finder Window",
+      "description": "Open a new Finder window at the specified path.\n    finder, navigation, macos, automation\n\n    Use cases:\n    - Open folder for user review\n    - Navigate to workflow output directory\n    - Set up workspace windows",
+      "namespace": "apple.finder",
+      "node_type": "apple.finder.OpenFinderWindow",
+      "properties": [
+        {
+          "name": "path",
+          "type": {
+            "type": "str"
+          },
+          "default": "~",
+          "title": "Path",
+          "description": "Path to open (defaults to home directory)"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "bool"
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "path"
+      ]
+    },
+    {
+      "title": "Reveal In Finder",
+      "description": "Reveal a file or folder in Finder (opens containing folder and selects item).\n    finder, files, macos, automation\n\n    Use cases:\n    - Show user where a processed file was saved\n    - Navigate to workflow output location\n    - Highlight important files for review",
+      "namespace": "apple.finder",
+      "node_type": "apple.finder.RevealInFinder",
+      "properties": [
+        {
+          "name": "path",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Path",
+          "description": "Path to the file or folder to reveal"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "bool"
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "path"
+      ]
+    },
+    {
+      "title": "Set Finder Tag",
+      "description": "Set a color tag on a file or folder in Finder.\n    finder, tags, macos, automation\n\n    Use cases:\n    - Mark processed files for easy identification\n    - Categorize files by workflow status\n    - Visual organization of workflow outputs",
+      "namespace": "apple.finder",
+      "node_type": "apple.finder.SetFinderTag",
+      "properties": [
+        {
+          "name": "path",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Path",
+          "description": "Path to the file or folder"
+        },
+        {
+          "name": "tag",
+          "type": {
+            "type": "enum",
+            "values": [
+              "0",
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7"
+            ],
+            "type_name": "nodetool.nodes.apple.finder.FinderTag"
+          },
+          "default": "0",
+          "title": "Tag",
+          "description": "Tag color to apply"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "bool"
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "path",
+        "tag"
       ]
     },
     {
@@ -180,6 +709,506 @@
         "query",
         "limit",
         "only_in"
+      ]
+    },
+    {
+      "title": "Empty Trash",
+      "description": "Empty the macOS Trash.\n    system, finder, macos, automation\n\n    Use cases:\n    - Clean up after batch file operations\n    - Scheduled maintenance workflows\n    - Free disk space automation",
+      "namespace": "apple.system",
+      "node_type": "apple.system.EmptyTrash",
+      "outputs": [
+        {
+          "type": {
+            "type": "bool"
+          },
+          "name": "output"
+        }
+      ]
+    },
+    {
+      "title": "Get Battery Status",
+      "description": "Get battery status information (percentage, charging state, time remaining).\n    system, battery, macos, automation\n\n    Use cases:\n    - Conditional workflows based on battery level\n    - Power-aware task scheduling\n    - Battery monitoring and alerts",
+      "namespace": "apple.system",
+      "node_type": "apple.system.GetBatteryStatus",
+      "outputs": [
+        {
+          "type": {
+            "type": "dict"
+          },
+          "name": "output"
+        }
+      ]
+    },
+    {
+      "title": "Get Dark Mode",
+      "description": "Check if macOS Dark Mode is currently enabled.\n    system, appearance, macos, automation\n\n    Use cases:\n    - Sync workflow output colors with system theme\n    - Conditional logic based on appearance mode\n    - Accessibility-aware workflows",
+      "namespace": "apple.system",
+      "node_type": "apple.system.GetDarkMode",
+      "outputs": [
+        {
+          "type": {
+            "type": "bool"
+          },
+          "name": "output"
+        }
+      ]
+    },
+    {
+      "title": "Get Frontmost Application",
+      "description": "Get the name of the currently frontmost (active) application.\n    system, applications, macos, automation\n\n    Use cases:\n    - Context-aware workflows based on active app\n    - Log which app user is working in\n    - Conditional automation based on focus",
+      "namespace": "apple.system",
+      "node_type": "apple.system.GetFrontmostApplication",
+      "outputs": [
+        {
+          "type": {
+            "type": "str"
+          },
+          "name": "output"
+        }
+      ]
+    },
+    {
+      "title": "Get Mute State",
+      "description": "Check if the system audio is currently muted.\n    system, volume, macos, automation\n\n    Use cases:\n    - Check mute state before playing audio\n    - Save and restore mute state in workflows",
+      "namespace": "apple.system",
+      "node_type": "apple.system.GetMuteState",
+      "outputs": [
+        {
+          "type": {
+            "type": "bool"
+          },
+          "name": "output"
+        }
+      ]
+    },
+    {
+      "title": "Get System Volume",
+      "description": "Get the current system audio output volume (0-100).\n    system, volume, macos, automation\n\n    Use cases:\n    - Check volume before playing audio\n    - Save and restore volume in workflows\n    - Monitor volume level for accessibility",
+      "namespace": "apple.system",
+      "node_type": "apple.system.GetSystemVolume",
+      "outputs": [
+        {
+          "type": {
+            "type": "int"
+          },
+          "name": "output"
+        }
+      ]
+    },
+    {
+      "title": "List Running Applications",
+      "description": "List all currently running applications.\n    system, applications, macos, automation\n\n    Use cases:\n    - Check if an app is running before sending commands\n    - Monitor active applications for workflows\n    - Application discovery for automation",
+      "namespace": "apple.system",
+      "node_type": "apple.system.ListRunningApplications",
+      "outputs": [
+        {
+          "type": {
+            "type": "list",
+            "type_args": [
+              {
+                "type": "str"
+              }
+            ]
+          },
+          "name": "output"
+        }
+      ]
+    },
+    {
+      "title": "Open Application",
+      "description": "Launch or bring to front a macOS application.\n    system, applications, macos, automation\n\n    Use cases:\n    - Open apps as part of a workflow\n    - Bring an app to foreground for user interaction\n    - Launch specific tools before automation steps",
+      "namespace": "apple.system",
+      "node_type": "apple.system.OpenApplication",
+      "properties": [
+        {
+          "name": "app_name",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "App Name",
+          "description": "Name of the application to open"
+        },
+        {
+          "name": "activate",
+          "type": {
+            "type": "bool"
+          },
+          "default": true,
+          "title": "Activate",
+          "description": "Bring the application to the foreground"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "bool"
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "app_name",
+        "activate"
+      ]
+    },
+    {
+      "title": "Quit Application",
+      "description": "Quit a running macOS application.\n    system, applications, macos, automation\n\n    Use cases:\n    - Clean up apps after workflow completion\n    - Close apps before system sleep\n    - Resource management automation",
+      "namespace": "apple.system",
+      "node_type": "apple.system.QuitApplication",
+      "properties": [
+        {
+          "name": "app_name",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "App Name",
+          "description": "Name of the application to quit"
+        },
+        {
+          "name": "save_changes",
+          "type": {
+            "type": "bool"
+          },
+          "default": true,
+          "title": "Save Changes",
+          "description": "Prompt to save changes (if applicable)"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "bool"
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "app_name",
+        "save_changes"
+      ]
+    },
+    {
+      "title": "Set Dark Mode",
+      "description": "Enable or disable macOS Dark Mode.\n    system, appearance, macos, automation\n\n    Use cases:\n    - Toggle dark mode on schedule\n    - Switch appearance for presentations\n    - Sync appearance with external lighting",
+      "namespace": "apple.system",
+      "node_type": "apple.system.SetDarkMode",
+      "properties": [
+        {
+          "name": "enabled",
+          "type": {
+            "type": "bool"
+          },
+          "default": true,
+          "title": "Enabled",
+          "description": "Enable dark mode"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "bool"
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "enabled"
+      ]
+    },
+    {
+      "title": "Set Mute State",
+      "description": "Mute or unmute the system audio.\n    system, volume, macos, automation\n\n    Use cases:\n    - Mute system during sensitive operations\n    - Toggle mute for hands-free workflows",
+      "namespace": "apple.system",
+      "node_type": "apple.system.SetMuteState",
+      "properties": [
+        {
+          "name": "muted",
+          "type": {
+            "type": "bool"
+          },
+          "default": true,
+          "title": "Muted",
+          "description": "Set to True to mute, False to unmute"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "bool"
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "muted"
+      ]
+    },
+    {
+      "title": "Set System Volume",
+      "description": "Set the system audio output volume (0-100).\n    system, volume, macos, automation\n\n    Use cases:\n    - Mute system before TTS playback\n    - Adjust volume for notifications\n    - Automate volume for time-of-day workflows",
+      "namespace": "apple.system",
+      "node_type": "apple.system.SetSystemVolume",
+      "properties": [
+        {
+          "name": "volume",
+          "type": {
+            "type": "int"
+          },
+          "default": 50,
+          "title": "Volume",
+          "description": "Volume level (0-100)",
+          "min": 0.0,
+          "max": 100.0
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "bool"
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "volume"
+      ]
+    },
+    {
+      "title": "Sleep Display",
+      "description": "Put the display to sleep (without sleeping the whole system).\n    system, display, macos, automation\n\n    Use cases:\n    - Save power when running unattended workflows\n    - Quick privacy screen for leaving desk\n    - Power management automation",
+      "namespace": "apple.system",
+      "node_type": "apple.system.SleepDisplay",
+      "outputs": [
+        {
+          "type": {
+            "type": "bool"
+          },
+          "name": "output"
+        }
+      ]
+    },
+    {
+      "title": "Capture Screen",
+      "description": "Capture screen content via PyObjC\n    screen, automation, macos, media",
+      "namespace": "apple.window_management",
+      "node_type": "apple.window_management.CaptureScreen",
+      "properties": [
+        {
+          "name": "whole_screen",
+          "type": {
+            "type": "bool"
+          },
+          "default": true,
+          "title": "Whole Screen",
+          "description": "Capture the whole screen"
+        },
+        {
+          "name": "x",
+          "type": {
+            "type": "int"
+          },
+          "default": 0,
+          "title": "X",
+          "description": "X coordinate of the region to capture"
+        },
+        {
+          "name": "y",
+          "type": {
+            "type": "int"
+          },
+          "default": 0,
+          "title": "Y",
+          "description": "Y coordinate of the region to capture"
+        },
+        {
+          "name": "width",
+          "type": {
+            "type": "int"
+          },
+          "default": 1920,
+          "title": "Width",
+          "description": "Width of the region to capture"
+        },
+        {
+          "name": "height",
+          "type": {
+            "type": "int"
+          },
+          "default": 1080,
+          "title": "Height",
+          "description": "Height of the region to capture"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "image"
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "whole_screen",
+        "x",
+        "y",
+        "width",
+        "height"
+      ]
+    },
+    {
+      "title": "Capture Window",
+      "description": "Capture specific window by name or ID\n    window, capture, automation, macos",
+      "namespace": "apple.window_management",
+      "node_type": "apple.window_management.CaptureWindow",
+      "properties": [
+        {
+          "name": "window_name",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Window Name",
+          "description": "Name of the window to capture"
+        },
+        {
+          "name": "window_id",
+          "type": {
+            "type": "int"
+          },
+          "default": 0,
+          "title": "Window Id",
+          "description": "Window ID to capture (overrides name)"
+        },
+        {
+          "name": "owner_name",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Owner Name",
+          "description": "Application name that owns the window"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "image"
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "window_name",
+        "window_id",
+        "owner_name"
+      ]
+    },
+    {
+      "title": "Focus Application",
+      "description": "Bring an application to the foreground\n    focus, application, automation, macos",
+      "namespace": "apple.window_management",
+      "node_type": "apple.window_management.FocusApplication",
+      "properties": [
+        {
+          "name": "application_name",
+          "type": {
+            "type": "str"
+          },
+          "default": null,
+          "title": "Application Name",
+          "description": "Name of the application to focus",
+          "required": true
+        },
+        {
+          "name": "bundle_id",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Bundle Id",
+          "description": "Bundle ID of the application (overrides name)"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "dict"
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "application_name",
+        "bundle_id"
+      ]
+    },
+    {
+      "title": "Get Active Window",
+      "description": "Get information about the currently active window\n    window, active, automation, macos",
+      "namespace": "apple.window_management",
+      "node_type": "apple.window_management.GetActiveWindow",
+      "outputs": [
+        {
+          "type": {
+            "type": "dict"
+          },
+          "name": "output"
+        }
+      ]
+    },
+    {
+      "title": "Get Screen Resolution",
+      "description": "Get screen resolution and display information\n    screen, display, system, macos",
+      "namespace": "apple.window_management",
+      "node_type": "apple.window_management.GetScreenResolution",
+      "outputs": [
+        {
+          "type": {
+            "type": "dict"
+          },
+          "name": "output"
+        }
+      ]
+    },
+    {
+      "title": "Get Window List",
+      "description": "Get list of all open windows\n    window, automation, macos, system",
+      "namespace": "apple.window_management",
+      "node_type": "apple.window_management.GetWindowList",
+      "outputs": [
+        {
+          "type": {
+            "type": "list",
+            "type_args": [
+              {
+                "type": "dict"
+              }
+            ]
+          },
+          "name": "output"
+        }
+      ]
+    },
+    {
+      "title": "List Applications",
+      "description": "List all running applications\n    applications, system, automation, macos",
+      "namespace": "apple.window_management",
+      "node_type": "apple.window_management.ListApplications",
+      "outputs": [
+        {
+          "type": {
+            "type": "list",
+            "type_args": [
+              {
+                "type": "dict"
+              }
+            ]
+          },
+          "name": "output"
+        }
       ]
     },
     {
@@ -678,6 +1707,187 @@
       ]
     },
     {
+      "title": "Get Current Track",
+      "description": "Get information about the currently playing track in Apple Music.\n    music, media, macos, automation\n\n    Use cases:\n    - Log what's playing during workflow execution\n    - Create \"now playing\" notifications\n    - Build music-aware workflows",
+      "namespace": "apple.music",
+      "node_type": "apple.music.GetCurrentTrack",
+      "outputs": [
+        {
+          "type": {
+            "type": "dict"
+          },
+          "name": "output"
+        }
+      ]
+    },
+    {
+      "title": "Get Music Player State",
+      "description": "Get the current player state (playing, paused, stopped) of Apple Music.\n    music, media, macos, automation\n\n    Use cases:\n    - Check if music is playing before starting TTS\n    - Resume music after pause in workflow\n    - Monitor playback status",
+      "namespace": "apple.music",
+      "node_type": "apple.music.GetMusicPlayerState",
+      "outputs": [
+        {
+          "type": {
+            "type": "str"
+          },
+          "name": "output"
+        }
+      ]
+    },
+    {
+      "title": "Get Music Volume",
+      "description": "Get the current Apple Music app volume.\n    music, media, macos, automation\n\n    Use cases:\n    - Save volume before adjustment\n    - Monitor music volume levels",
+      "namespace": "apple.music",
+      "node_type": "apple.music.GetMusicVolume",
+      "outputs": [
+        {
+          "type": {
+            "type": "int"
+          },
+          "name": "output"
+        }
+      ]
+    },
+    {
+      "title": "Music Control",
+      "description": "Control Apple Music playback (play, pause, stop, next, previous).\n    music, media, macos, automation\n\n    Use cases:\n    - Pause music during speech synthesis\n    - Create playlist automation workflows\n    - Remote control music from mobile workflows",
+      "namespace": "apple.music",
+      "node_type": "apple.music.MusicControl",
+      "properties": [
+        {
+          "name": "action",
+          "type": {
+            "type": "enum",
+            "values": [
+              "play",
+              "pause",
+              "stop",
+              "next",
+              "previous"
+            ],
+            "type_name": "nodetool.nodes.apple.music.PlayerState"
+          },
+          "default": "play",
+          "title": "Action",
+          "description": "Playback action to perform"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "bool"
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "action"
+      ]
+    },
+    {
+      "title": "Play Track By Id",
+      "description": "Play a specific track by its Music library ID.\n    music, media, macos, automation\n\n    Use cases:\n    - Play a specific song from search results\n    - Create precise playlist automations\n    - Resume a specific track",
+      "namespace": "apple.music",
+      "node_type": "apple.music.PlayTrackById",
+      "properties": [
+        {
+          "name": "track_id",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Track Id",
+          "description": "Music track ID to play"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "bool"
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "track_id"
+      ]
+    },
+    {
+      "title": "Search Music",
+      "description": "Search for tracks in Apple Music library.\n    music, search, macos, automation\n\n    Use cases:\n    - Find songs to play by name\n    - Build music discovery workflows\n    - Create dynamic playlists",
+      "namespace": "apple.music",
+      "node_type": "apple.music.SearchMusic",
+      "properties": [
+        {
+          "name": "query",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Query",
+          "description": "Search query for track name/artist"
+        },
+        {
+          "name": "limit",
+          "type": {
+            "type": "int"
+          },
+          "default": 10,
+          "title": "Limit",
+          "description": "Maximum results to return",
+          "min": 1.0,
+          "max": 50.0
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "list",
+            "type_args": [
+              {
+                "type": "dict"
+              }
+            ]
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "query",
+        "limit"
+      ]
+    },
+    {
+      "title": "Set Music Volume",
+      "description": "Set the Apple Music app volume (independent of system volume).\n    music, media, macos, automation\n\n    Use cases:\n    - Lower music volume before TTS\n    - Fade music volume in workflows\n    - Per-app volume control",
+      "namespace": "apple.music",
+      "node_type": "apple.music.SetMusicVolume",
+      "properties": [
+        {
+          "name": "volume",
+          "type": {
+            "type": "int"
+          },
+          "default": 50,
+          "title": "Volume",
+          "description": "Volume level (0-100)",
+          "min": 0.0,
+          "max": 100.0
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "bool"
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "volume"
+      ]
+    },
+    {
       "title": "Create Calendar Event",
       "description": "Create a new event in Apple Calendar via AppleScript\n    calendar, automation, macos, productivity\n\n    Use cases:\n    - Automate event creation\n    - Schedule meetings programmatically\n    - Create recurring events",
       "namespace": "apple.calendar",
@@ -823,6 +2033,407 @@
       ]
     },
     {
+      "title": "Get Local IP",
+      "description": "Get the local (LAN) IP address of this machine.\n    network, ip, macos, automation\n\n    Use cases:\n    - Find local IP for network services\n    - Set up local device communication\n    - Network configuration workflows",
+      "namespace": "apple.network",
+      "node_type": "apple.network.GetLocalIP",
+      "outputs": [
+        {
+          "type": {
+            "type": "str"
+          },
+          "name": "output"
+        }
+      ]
+    },
+    {
+      "title": "Get Public IP",
+      "description": "Get the public IP address of this machine.\n    network, ip, macos, automation\n\n    Use cases:\n    - Log external IP for remote access setup\n    - Monitor IP changes\n    - Network diagnostics",
+      "namespace": "apple.network",
+      "node_type": "apple.network.GetPublicIP",
+      "outputs": [
+        {
+          "type": {
+            "type": "str"
+          },
+          "name": "output"
+        }
+      ]
+    },
+    {
+      "title": "Get Wi Fi Status",
+      "description": "Get the current WiFi connection status and network info.\n    network, wifi, macos, automation\n\n    Use cases:\n    - Check connectivity before network-dependent workflows\n    - Monitor network changes\n    - Log network info for troubleshooting",
+      "namespace": "apple.network",
+      "node_type": "apple.network.GetWiFiStatus",
+      "outputs": [
+        {
+          "type": {
+            "type": "dict"
+          },
+          "name": "output"
+        }
+      ]
+    },
+    {
+      "title": "Ping Host",
+      "description": "Ping a host to check network connectivity.\n    network, ping, macos, automation\n\n    Use cases:\n    - Check if a server is reachable\n    - Network health monitoring\n    - Conditional workflows based on connectivity",
+      "namespace": "apple.network",
+      "node_type": "apple.network.PingHost",
+      "properties": [
+        {
+          "name": "host",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Host",
+          "description": "Hostname or IP address to ping"
+        },
+        {
+          "name": "count",
+          "type": {
+            "type": "int"
+          },
+          "default": 1,
+          "title": "Count",
+          "description": "Number of ping packets",
+          "min": 1.0,
+          "max": 10.0
+        },
+        {
+          "name": "timeout",
+          "type": {
+            "type": "int"
+          },
+          "default": 5,
+          "title": "Timeout",
+          "description": "Timeout in seconds",
+          "min": 1.0,
+          "max": 30.0
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "dict"
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "host",
+        "count"
+      ]
+    },
+    {
+      "title": "Get Conversation Details",
+      "description": "Get detailed information about a specific conversation.\n    messages, imessage, automation, macos, communication\n\n    Use cases:\n    - Get conversation metadata\n    - Check conversation properties\n    - Analyze chat characteristics",
+      "namespace": "apple.messages",
+      "node_type": "apple.messages.GetConversationDetails",
+      "properties": [
+        {
+          "name": "participant",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Participant",
+          "description": "Phone number, email, or contact name to get details for"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "dict"
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "participant"
+      ]
+    },
+    {
+      "title": "Get Latest Message",
+      "description": "Get the most recent message from a conversation.\n    messages, imessage, automation, macos, communication\n\n    Use cases:\n    - Check for new messages\n    - Get latest conversation update\n    - Monitor message activity",
+      "namespace": "apple.messages",
+      "node_type": "apple.messages.GetLatestMessage",
+      "properties": [
+        {
+          "name": "participant",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Participant",
+          "description": "Phone number, email, or contact name to get latest message from"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "dict"
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "participant"
+      ]
+    },
+    {
+      "title": "Get Recent Messages",
+      "description": "Get recent messages from a specific conversation in Messages.app.\n    messages, imessage, automation, macos, communication\n\n    Use cases:\n    - Read recent conversation history\n    - Monitor messages from a specific contact\n    - Extract message data for processing",
+      "namespace": "apple.messages",
+      "node_type": "apple.messages.GetRecentMessages",
+      "properties": [
+        {
+          "name": "participant",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Participant",
+          "description": "Phone number, email, or contact name to get messages from"
+        },
+        {
+          "name": "limit",
+          "type": {
+            "type": "int"
+          },
+          "default": 20,
+          "title": "Limit",
+          "description": "Maximum number of messages to retrieve",
+          "min": 1.0,
+          "max": 100.0
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "list",
+            "type_args": [
+              {
+                "type": "dict"
+              }
+            ]
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "participant",
+        "limit"
+      ]
+    },
+    {
+      "title": "Get Unread Message Count",
+      "description": "Get the count of unread messages in Messages.app.\n    messages, imessage, automation, macos, communication\n\n    Use cases:\n    - Check for new messages in workflows\n    - Trigger actions based on unread count\n    - Monitor message status",
+      "namespace": "apple.messages",
+      "node_type": "apple.messages.GetUnreadMessageCount",
+      "outputs": [
+        {
+          "type": {
+            "type": "int"
+          },
+          "name": "output"
+        }
+      ]
+    },
+    {
+      "title": "List Conversations",
+      "description": "List all chat conversations in Messages.app.\n    messages, imessage, automation, macos, communication\n\n    Use cases:\n    - Discover available conversations\n    - Get list of contacts you've messaged\n    - Find conversation IDs for further processing",
+      "namespace": "apple.messages",
+      "node_type": "apple.messages.ListConversations",
+      "properties": [
+        {
+          "name": "limit",
+          "type": {
+            "type": "int"
+          },
+          "default": 50,
+          "title": "Limit",
+          "description": "Maximum number of conversations to retrieve",
+          "min": 1.0,
+          "max": 200.0
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "list",
+            "type_args": [
+              {
+                "type": "dict"
+              }
+            ]
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "limit"
+      ]
+    },
+    {
+      "title": "Mark As Read",
+      "description": "Mark all messages from a participant as read.\n    messages, imessage, automation, macos, communication\n\n    Use cases:\n    - Clear unread notifications from a contact\n    - Mark automated messages as read\n    - Reset conversation status",
+      "namespace": "apple.messages",
+      "node_type": "apple.messages.MarkAsRead",
+      "properties": [
+        {
+          "name": "participant",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Participant",
+          "description": "Phone number, email, or contact name to mark as read"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "bool"
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "participant"
+      ]
+    },
+    {
+      "title": "Mark As Unread",
+      "description": "Mark messages from a participant as unread.\n    messages, imessage, automation, macos, communication\n\n    Use cases:\n    - Flag messages for later review\n    - Highlight important conversations\n    - Create reminder notifications",
+      "namespace": "apple.messages",
+      "node_type": "apple.messages.MarkAsUnread",
+      "properties": [
+        {
+          "name": "participant",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Participant",
+          "description": "Phone number, email, or contact name to mark as unread"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "bool"
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "participant"
+      ]
+    },
+    {
+      "title": "Search Messages",
+      "description": "Search through messages in Messages.app.\n    messages, imessage, automation, macos, communication, search\n\n    Use cases:\n    - Find messages containing specific text\n    - Search conversation history\n    - Locate specific information in messages",
+      "namespace": "apple.messages",
+      "node_type": "apple.messages.SearchMessages",
+      "properties": [
+        {
+          "name": "query",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Query",
+          "description": "Text to search for in messages"
+        },
+        {
+          "name": "participant",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Participant",
+          "description": "Optional: limit search to messages from/to this participant"
+        },
+        {
+          "name": "limit",
+          "type": {
+            "type": "int"
+          },
+          "default": 50,
+          "title": "Limit",
+          "description": "Maximum number of results to return",
+          "min": 1.0,
+          "max": 200.0
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "list",
+            "type_args": [
+              {
+                "type": "dict"
+              }
+            ]
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "query",
+        "participant"
+      ]
+    },
+    {
+      "title": "Send Attachment",
+      "description": "Send a file attachment via iMessage.\n    messages, imessage, automation, macos, communication\n\n    Use cases:\n    - Send images or documents\n    - Share files in workflows\n    - Attach files to messages",
+      "namespace": "apple.messages",
+      "node_type": "apple.messages.SendAttachment",
+      "properties": [
+        {
+          "name": "recipient",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Recipient",
+          "description": "Phone number, email, or contact name to send attachment to"
+        },
+        {
+          "name": "file_path",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "File Path",
+          "description": "Absolute path to the file to send"
+        },
+        {
+          "name": "message",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Message",
+          "description": "Optional message text to include with attachment"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "bool"
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "recipient",
+        "file_path",
+        "message"
+      ]
+    },
+    {
       "title": "Send Message",
       "description": "Send messages using macOS Messages.app via AppleScript\n    messages, imessage, automation, macos, communication\n\n    Use cases:\n    - Send automated notifications via iMessage\n    - Integrate messaging into workflows\n    - Send workflow results to yourself or others",
       "namespace": "apple.messages",
@@ -845,6 +2456,14 @@
           "default": "",
           "title": "Text",
           "description": "Message content to send"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "bool"
+          },
+          "name": "output"
         }
       ],
       "basic_fields": [
@@ -1278,42 +2897,28 @@
       ]
     },
     {
-      "title": "Get Front Safari Tab",
-      "description": "Get URL/title of the front tab in Safari via AppleScript.\n    safari, browser, macos, automation\n\n    Use cases:\n    - Summarize what you're currently reading\n    - Save current page into Notes/Reminders\n    - Route the active URL into download/scrape workflows",
-      "namespace": "apple.safari",
-      "node_type": "apple.safari.GetFrontSafariTab",
-      "outputs": [
-        {
-          "type": {
-            "type": "dict"
-          },
-          "name": "output"
-        }
-      ]
-    },
-    {
-      "title": "Open Safari URL",
-      "description": "Open a URL in Safari via AppleScript.\n    safari, browser, macos, automation\n\n    Use cases:\n    - Open links from an agent step\n    - Jump to a search result for human verification\n    - Bring Safari to the foreground on demand",
-      "namespace": "apple.safari",
-      "node_type": "apple.safari.OpenSafariURL",
+      "title": "Add Photo To Album",
+      "description": "Add a photo to an existing album in Apple Photos.\n    photos, albums, macos, automation\n\n    Use cases:\n    - Move photos to specific albums after import\n    - Organize photos by project or category\n    - Build automated photo organization workflows",
+      "namespace": "apple.photos",
+      "node_type": "apple.photos.AddPhotoToAlbum",
       "properties": [
         {
-          "name": "url",
+          "name": "photo_id",
           "type": {
             "type": "str"
           },
           "default": "",
-          "title": "Url",
-          "description": "URL to open in Safari"
+          "title": "Photo Id",
+          "description": "ID of photo to add to album"
         },
         {
-          "name": "activate",
+          "name": "album_name",
           "type": {
-            "type": "bool"
+            "type": "str"
           },
-          "default": true,
-          "title": "Activate",
-          "description": "Bring Safari to the foreground"
+          "default": "",
+          "title": "Album Name",
+          "description": "Name of the target album"
         }
       ],
       "outputs": [
@@ -1325,61 +2930,231 @@
         }
       ],
       "basic_fields": [
-        "url",
-        "activate"
+        "photo_id",
+        "album_name"
       ]
     },
     {
-      "title": "Safari Page Text",
-      "description": "Extract visible page text from the front Safari tab (via injected JavaScript).\n    safari, browser, macos, automation\n\n    Use cases:\n    - Summarize an article without copy/paste\n    - Feed page content into retrieval/notes pipelines\n    - Create \u201creading assistant\u201d workflows",
-      "namespace": "apple.safari",
-      "node_type": "apple.safari.SafariPageText",
+      "title": "Create Photos Album",
+      "description": "Create a new album in Apple Photos.\n    photos, albums, macos, automation\n\n    Use cases:\n    - Organize workflow outputs into new albums\n    - Set up album structure for imports\n    - Create project-specific photo collections",
+      "namespace": "apple.photos",
+      "node_type": "apple.photos.CreatePhotosAlbum",
       "properties": [
         {
-          "name": "max_chars",
+          "name": "name",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Name",
+          "description": "Name for the new album"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "bool"
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "name"
+      ]
+    },
+    {
+      "title": "Get Photos Albums",
+      "description": "List all albums in Apple Photos.\n    photos, albums, macos, automation\n\n    Use cases:\n    - Discover albums for import targets\n    - List albums for user selection\n    - Build album-aware workflows",
+      "namespace": "apple.photos",
+      "node_type": "apple.photos.GetPhotosAlbums",
+      "outputs": [
+        {
+          "type": {
+            "type": "list",
+            "type_args": [
+              {
+                "type": "str"
+              }
+            ]
+          },
+          "name": "output"
+        }
+      ]
+    },
+    {
+      "title": "Get Photos In Album",
+      "description": "Get all photos from a specific album in Apple Photos.\n    photos, albums, macos, automation\n\n    Use cases:\n    - List photos in specific albums\n    - Process photos from particular collections\n    - Build album-based workflows",
+      "namespace": "apple.photos",
+      "node_type": "apple.photos.GetPhotosInAlbum",
+      "properties": [
+        {
+          "name": "album_name",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Album Name",
+          "description": "Name of the album to get photos from"
+        },
+        {
+          "name": "limit",
           "type": {
             "type": "int"
           },
-          "default": 50000,
-          "title": "Max Chars",
-          "description": "Truncate output to this many characters",
-          "min": 0.0
-        },
-        {
-          "name": "prefer_article",
-          "type": {
-            "type": "bool"
-          },
-          "default": true,
-          "title": "Prefer Article",
-          "description": "Prefer <article> text when present"
+          "default": 50,
+          "title": "Limit",
+          "description": "Maximum number of photos to return",
+          "min": 1.0,
+          "max": 500.0
         }
       ],
       "outputs": [
         {
           "type": {
-            "type": "text"
+            "type": "list",
+            "type_args": [
+              {
+                "type": "dict"
+              }
+            ]
           },
           "name": "output"
         }
       ],
       "basic_fields": [
-        "max_chars",
-        "prefer_article"
+        "album_name",
+        "limit"
       ]
     },
     {
-      "title": "Safari Selection Text",
-      "description": "Read the current text selection from the front Safari tab (via injected JavaScript).\n    safari, browser, macos, automation\n\n    Use cases:\n    - Copy a highlighted passage into an LLM prompt\n    - Turn selected text into a note/task\n    - Summarize just the selected section of a page",
-      "namespace": "apple.safari",
-      "node_type": "apple.safari.SafariSelectionText",
+      "title": "Get Recent Photos",
+      "description": "Get file paths to the most recent photos in Photos library.\n    photos, media, macos, automation\n\n    Use cases:\n    - Process latest photos in workflows\n    - Quick access to recent camera imports\n    - Photo-based automation triggers\n\n    Note: Photos must be exported to access actual files.",
+      "namespace": "apple.photos",
+      "node_type": "apple.photos.GetRecentPhotos",
+      "properties": [
+        {
+          "name": "limit",
+          "type": {
+            "type": "int"
+          },
+          "default": 10,
+          "title": "Limit",
+          "description": "Number of recent photos",
+          "min": 1.0,
+          "max": 100.0
+        }
+      ],
       "outputs": [
         {
           "type": {
-            "type": "text"
+            "type": "list",
+            "type_args": [
+              {
+                "type": "dict"
+              }
+            ]
           },
           "name": "output"
         }
+      ],
+      "basic_fields": [
+        "limit"
+      ]
+    },
+    {
+      "title": "Import To Album",
+      "description": "Import an image directly into a specific album in Apple Photos.\n    photos, media, macos, automation\n\n    Use cases:\n    - Import and organize in one step\n    - Send workflow outputs to specific albums\n    - Build streamlined photo import workflows",
+      "namespace": "apple.photos",
+      "node_type": "apple.photos.ImportToAlbum",
+      "properties": [
+        {
+          "name": "image",
+          "type": {
+            "type": "image"
+          },
+          "default": {
+            "type": "image",
+            "uri": "",
+            "asset_id": null,
+            "data": null,
+            "metadata": null
+          },
+          "title": "Image",
+          "description": "Image to import"
+        },
+        {
+          "name": "album_name",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Album Name",
+          "description": "Album name to import into"
+        },
+        {
+          "name": "skip_duplicate",
+          "type": {
+            "type": "bool"
+          },
+          "default": true,
+          "title": "Skip Duplicate",
+          "description": "Skip if a duplicate exists in Photos"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "bool"
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "image",
+        "album_name"
+      ]
+    },
+    {
+      "title": "Import To Photos",
+      "description": "Import an image into Apple Photos.\n    photos, media, macos, automation\n\n    Use cases:\n    - Save generated images to Photos library\n    - Archive processed images\n    - Organize workflow outputs in Photos albums",
+      "namespace": "apple.photos",
+      "node_type": "apple.photos.ImportToPhotos",
+      "properties": [
+        {
+          "name": "image",
+          "type": {
+            "type": "image"
+          },
+          "default": {
+            "type": "image",
+            "uri": "",
+            "asset_id": null,
+            "data": null,
+            "metadata": null
+          },
+          "title": "Image",
+          "description": "Image to import"
+        },
+        {
+          "name": "skip_duplicate",
+          "type": {
+            "type": "bool"
+          },
+          "default": true,
+          "title": "Skip Duplicate",
+          "description": "Skip if a duplicate exists in Photos"
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "bool"
+          },
+          "name": "output"
+        }
+      ],
+      "basic_fields": [
+        "image"
       ]
     }
   ],
