@@ -14,10 +14,10 @@ class CaptureScreen(BaseNode):
     """
 
     whole_screen: bool = Field(default=True, description="Capture the whole screen")
-    x: int = Field(default=0, description="X coordinate of the region to capture")
-    y: int = Field(default=0, description="Y coordinate of the region to capture")
-    width: int = Field(default=1920, description="Width of the region to capture")
-    height: int = Field(default=1080, description="Height of the region to capture")
+    x: int = Field(default=0, le=1920, ge=0, description="X coordinate of the region to capture")
+    y: int = Field(default=0, le=1080, ge=0, description="Y coordinate of the region to capture")
+    width: int = Field(default=1920, le=4096, ge=0, description="Width of the region to capture")
+    height: int = Field(default=1080, le=4096, ge=0, description="Height of the region to capture")
 
     async def process(self, context: ProcessingContext) -> ImageRef:
         main_display = Quartz.CGMainDisplayID()  # type: ignore

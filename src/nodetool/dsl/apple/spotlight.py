@@ -58,9 +58,7 @@ import nodetool.nodes.apple.spotlight
 from nodetool.workflows.base_node import BaseNode
 
 
-class SpotlightSearch(
-    SingleOutputGraphNode[list[types.AssetRef]], GraphNode[list[types.AssetRef]]
-):
+class SpotlightSearch(SingleOutputGraphNode[list[str]], GraphNode[list[str]]):
     """
 
     Search local files using macOS Spotlight (`mdfind`).
