@@ -19,4 +19,4 @@ jobs:
           python -m pip install -r requirements-dev.txt
 
       - name: Run tests
-        run: pytest tests/ --ignore=tests/integration/
+        run: pytest --ignore=tests/integration/
