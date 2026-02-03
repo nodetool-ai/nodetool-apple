@@ -31,12 +31,10 @@ stable = ["nodetool-core==0.6.3-rc.13"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/nodetool"]
-artifacts = [
-    "src/nodetool/package_metadata/nodetool-apple.json",
-    "package_metadata/nodetool-apple.json",
-    "assets/nodetool-apple/Contacts Lookup.jpg",
-    "assets/nodetool-apple/Language Lesson.png",
-    "assets/nodetool-apple/Speech To Note.png"
+include = [
+    "src/nodetool/package_metadata/*.json",
+    "src/nodetool/assets/**/*.jpg",
+    "src/nodetool/assets/**/*.png",
 ]
 
 [tool.ruff]
